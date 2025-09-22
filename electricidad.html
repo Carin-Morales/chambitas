@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electricistas - Chambitas SV</title>
+<link rel="stylesheet" href="css/style2.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<header class="navbar">
+<div class="logo">
+<img src="img/logo.png" alt="Chambitas SV">
+</div>
+<nav>
+<ul>
+<li><a href="index.html">Inicio</a></li>
+<li><a href="index.html#categorias">Categorías</a></li>
+<li><a href="#">Perfil</a></li>
+</ul>
+</nav>
+</header>
+
+
+<section class="catego">
+  <a href="categoria.html" > <i class="fa-solid fa-arrow-left"></i></a>
+  <h2>Categorías de Servicios</h2>
+</section>
+
+
+<div class="card">
+<img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Foto Juan">
+<div class="info">
+<h3>Juan Antonio Perez <i class="fa-regular fa-bookmark save"></i></h3>
+<p>Electricista</p>
+<p>Electricista con experiencia de 5 años</p>
+<div class="stars">
+★★★★☆
+</div>
+</div>
+<div class="actions">
+<button class="btn-green" id="openModal">Solicitar Servicio</button>
+<a href="perfil.html" class="btn btn-blue">Perfil</a>
+
+</div>
+</div>
+
+<div class="card">
+<img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto Roberto">
+<div class="info">
+<h3>Roberto Alexander Martinez <i class="fa-regular fa-bookmark save"></i></h3>
+<p>Electricista</p>
+<p>Electricista con experiencia de 2 años</p>
+<div class="stars">
+★★★☆☆
+</div>
+</div>
+<div class="actions">
+<button class="btn btn-green">Solicitar Servicio</button>
+<button class="btn btn-blue">Perfil</button>
+</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="serviceModal">
+<div class="modal-content">
+<div class="modal-header">
+Solicitud de Servicio
+</div>
+<div class="modal-body">
+<p>Formulario de solicitud:</p>
+<p><strong>Juan Antonio Pérez</strong></p>
+
+<div class="form-group">
+<select>
+<option disabled selected>Tipo de servicio que necesita</option>
+<option>Fontanería</option>
+<option>Electricista</option>
+</select>
+</div>
+
+<div class="form-group">
+<input type="datetime-local" placeholder="Fecha y hora deseada">
+</div>
+
+<div class="form-group">
+<textarea placeholder="Descripción del trabajo"></textarea>
+</div>
+
+<div class="form-group">
+<input type="file" multiple>
+</div>
+</div>
+
+<div class="modal-footer">
+<button class="btn-submit">Enviar</button>
+<button class="btn-cancel" id="closeModal">Cancelar</button>
+</div>
+</div>
+</div>
+
+
+<script src="main1.js"></script>
+
+</body>
+</html>
