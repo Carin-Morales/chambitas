@@ -1,107 +1,378 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Electricistas - Chambitas SV</title>
-<link rel="stylesheet" href="css/style2.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricistas - Chambitas SV</title>
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: #f7f9fc;
+      color: #333;
+    }
+    
+
+    /* ===== ENCABEZADO ===== */
+    .catego {
+      display: flex;
+      margin: 5%;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      background: #5579ab;
+      color: #fff;
+    }
+    .catego a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+    }
+    .catego h2 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 800px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    .card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .info {
+      flex: 1;
+    }
+    .info h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .info h3 i {
+      cursor: pointer;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .info h3 i:hover {
+      color: #004aad;
+    }
+    .info p {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+
+    .stars {
+      color: #FFD700;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    .actions {
+      display: flex;
+      
+      flex-direction: column;
+      gap: 10px;
+    }
+    .btn {
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-green {
+      background: #28a745;
+      color: #fff;
+    }
+    .btn-green:hover {
+      background: #218838;
+    }
+    .btn-blue {
+      background: #004aad;
+      color: #fff;
+    }
+    .btn-blue:hover {
+      background: #003580;
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 0.3s ease;
+      overflow: hidden;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-header {
+      background: #004aad;
+      color: #fff;
+      padding: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .modal-body {
+      padding: 20px;
+    }
+    .form-group {
+      margin: 15px 0;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background: #f5f5f5;
+    }
+    .btn-submit {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-submit:hover {
+      background: #218838;
+    }
+    .btn-cancel {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .btn-cancel:hover {
+      background: #c82333;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .actions {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    .perfil1 {
+  display: flex;
+  align-items: center;
+  
+  margin: 5%;
+  gap: 15px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #eaf1f9;
+  padding-bottom: 10px;
+}
+
+
+.perfil1 h2 {
+  color: #1e3c72;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaf1f9;
+  color: #1e3c72;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: #d6e6f7;
+  transform: translateX(-3px);
+}
+.btn,
+.btn:link,
+.btn:visited {
+  font-family: "Montserrat", sans-serif;  /* misma tipografía */
+  font-size: 14px;                        /* mismo tamaño */
+  font-weight: 600;                       /* mismo grosor */
+  line-height: 1.4;                       /* altura de línea */
+  color: #fff;                            /* color del texto */
+  text-decoration: none;                  /* quitar subrayado en <a> */
+  display: inline-block;                  /* uniforme para <a> y <button> */
+  text-align: center;
+}
+
+  </style>
 </head>
+
 <body>
-<header class="navbar">
-<div class="logo">
-<img src="img/logo.png" alt="Chambitas SV">
-</div>
-<nav>
-<ul>
-<li><a href="index.html">Inicio</a></li>
-<li><a href="index.html#categorias">Categorías</a></li>
-<li><a href="#">Perfil</a></li>
-</ul>
-</nav>
-</header>
 
-
-<section class="catego">
-  <a href="categoria.html" > <i class="fa-solid fa-arrow-left"></i></a>
-  <h2>Categorías de Servicios</h2>
+<!-- Menú -->
+  <header class="ch-navbar">
+    <div class="ch-navbar__logo">
+      <img src="img/logo.png" alt="Chambitas SV">
+      <span>Chambitas SV</span>
+    </div>
+    <button class="ch-navbar__toggle" id="ch-navbar-toggle">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="ch-navbar__links" id="ch-navbar-links">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias" class="active">Categorías</a></li>
+        <li><a href="perfilusua.html">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+<!-- Encabezado del perfil -->
+<section class="perfil1">
+  <a href="categoria.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+  <h2>Perfil - Electricista</h2>
 </section>
 
 
-<div class="card">
-<img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Foto Juan">
-<div class="info">
-<h3>Juan Antonio Perez <i class="fa-regular fa-bookmark save"></i></h3>
-<p>Electricista</p>
-<p>Electricista con experiencia de 5 años</p>
-<div class="stars">
-★★★★☆
-</div>
-</div>
-<div class="actions">
-<button class="btn-green" id="openModal">Solicitar Servicio</button>
-<a href="perfil.html" class="btn btn-blue">Perfil</a>
+  <!-- Tarjetas -->
+  <div class="card">
+    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Foto Juan">
+    <div class="info">
+      <h3>Juan Antonio Perez <i class="fa-regular fa-bookmark save"></i></h3>
+      <p><strong>Especialidad:</strong> Electricista</p>
+      <p>Electricista con experiencia de 5 años</p>
+      <div class="stars">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-green" id="openModal">Solicitar Servicio</button>
+      <a href="perfil.html" class="btn btn-blue">Perfil</a>
+    </div>
+  </div>
 
-</div>
-</div>
+  <div class="card">
+    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto Roberto">
+    <div class="info">
+      <h3>Roberto Alexander Martinez <i class="fa-regular fa-bookmark save"></i></h3>
+      <p><strong>Especialidad:</strong> Electricista</p>
+      <p>Electricista con experiencia de 2 años</p>
+      <div class="stars">
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-green">Solicitar Servicio</button>
+      <a href="perfil.html" class="btn btn-blue">Perfil</a>
+    </div>
+  </div>
 
-<div class="card">
-<img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Foto Roberto">
-<div class="info">
-<h3>Roberto Alexander Martinez <i class="fa-regular fa-bookmark save"></i></h3>
-<p>Electricista</p>
-<p>Electricista con experiencia de 2 años</p>
-<div class="stars">
-★★★☆☆
-</div>
-</div>
-<div class="actions">
-<button class="btn btn-green">Solicitar Servicio</button>
-<button class="btn btn-blue">Perfil</button>
-</div>
-</div>
+  <!-- Modal -->
+  <div class="modal" id="serviceModal">
+    <div class="modal-content">
+      <div class="modal-header">Solicitud de Servicio</div>
+      <div class="modal-body">
+        <p><strong>Juan Antonio Pérez</strong></p>
+        <div class="form-group">
+          <select>
+            <option disabled selected>Tipo de servicio</option>
+            <option>Fontanería</option>
+            <option>Electricista</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="datetime-local">
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Descripción del trabajo"></textarea>
+        </div>
+        <div class="form-group">
+          <input type="file" multiple>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-submit">Enviar</button>
+        <button class="btn-cancel" id="closeModal">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    const modal = document.getElementById("serviceModal");
+    const openModal = document.getElementById("openModal");
+    const closeModal = document.getElementById("closeModal");
 
-<!-- Modal -->
-<div class="modal" id="serviceModal">
-<div class="modal-content">
-<div class="modal-header">
-Solicitud de Servicio
-</div>
-<div class="modal-body">
-<p>Formulario de solicitud:</p>
-<p><strong>Juan Antonio Pérez</strong></p>
-
-<div class="form-group">
-<select>
-<option disabled selected>Tipo de servicio que necesita</option>
-<option>Fontanería</option>
-<option>Electricista</option>
-</select>
-</div>
-
-<div class="form-group">
-<input type="datetime-local" placeholder="Fecha y hora deseada">
-</div>
-
-<div class="form-group">
-<textarea placeholder="Descripción del trabajo"></textarea>
-</div>
-
-<div class="form-group">
-<input type="file" multiple>
-</div>
-</div>
-
-<div class="modal-footer">
-<button class="btn-submit">Enviar</button>
-<button class="btn-cancel" id="closeModal">Cancelar</button>
-</div>
-</div>
-</div>
-
-
-<script src="main1.js"></script>
-
+    openModal.addEventListener("click", () => modal.style.display = "flex");
+    closeModal.addEventListener("click", () => modal.style.display = "none");
+    window.addEventListener("click", e => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  </script>
 </body>
 </html>
+```

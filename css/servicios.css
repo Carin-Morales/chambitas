@@ -1,0 +1,139 @@
+/* --- RESET --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+
+
+/* --- CONTENEDOR --- */
+.ch-container {
+  margin-top: 80px;
+  padding: 20px;
+}
+
+.ch-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2d6aa6;
+}
+
+/* --- PESTAÑAS --- */
+.ch-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.ch-tab {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.ch-tab.active {
+  color: #2d6aa6;
+  border-bottom: 3px solid #2d6aa6;
+}
+
+/* --- TARJETAS --- */
+/* --- TARJETAS --- */
+.ch-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+/* Información */
+.ch-card__info {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ch-card__info h3 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.ch-card__info p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Imagen */
+.ch-card__img {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ch-card__img img {
+  width: 100%;
+  max-width: 250px;     /* 👈 límite de tamaño */
+  height: 180px;        /* 👈 altura fija */
+  object-fit: cover;    /* 👈 recorta sin deformar */
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* --- BOTONES --- */
+.ch-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: white;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.ch-btn.success { background: #28a745; }
+.ch-btn.danger  { background: #dc3545; }
+.ch-btn.info    { background: #007bff; }
+
+.ch-btn:hover { opacity: 0.8; }
+
+/* --- VACÍO --- */
+.ch-empty {
+  text-align: center;
+  color: #888;
+  margin-top: 30px;
+}
+
+/* --- Botón de regreso --- */
+.ch-back {
+  margin: 20px;
+}
+
+.ch-btn-back {
+  display: inline-block;
+  text-decoration: none;
+  background: linear-gradient(135deg, #4a86b9, #1e3c72);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.ch-btn-back:hover {
+  background: linear-gradient(135deg, #366b94, #142a52);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}

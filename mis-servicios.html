@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Servicios - Chambitas SV</title>
+  <link rel="stylesheet" href="css/servicios.css">
+<link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+
+  <!-- Menú -->
+  <header class="ch-navbar">
+    <div class="ch-navbar__logo">
+      <img src="img/logo.png" alt="Chambitas SV">
+      <span>Chambitas SV</span>
+    </div>
+    <button class="ch-navbar__toggle" id="ch-navbar-toggle">
+      <span class="ch-bar"></span>
+      <span class="ch-bar"></span>
+      <span class="ch-bar"></span>
+    </button>
+    <nav class="ch-navbar__links" id="ch-navbar-links">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias">Categorías</a></li>
+        <li><a href="perfilusua.html" class="active">Perfil</a></li>
+       
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="ch-container">
+      <div class="ch-back">
+    <a href="perfilusua.html" class="ch-btn-back">← Regresar</a>
+  </div>
+    <h2 class="ch-title">Mis Servicios</h2>
+
+    <!-- Pestañas -->
+    <div class="ch-tabs">
+      <button class="ch-tab active" data-tab="recibidas">📥 Recibidas</button>
+      <button class="ch-tab" data-tab="enviadas">📤 Enviadas</button>
+    </div>
+
+    <!-- Sección Recibidas -->
+    <div class="ch-tab-content active" id="recibidas">
+      <div class="ch-card">
+        <div class="ch-card__info">
+          <h3>Luisa Martínez</h3>
+          <p><strong>Conexión eléctrica para lavadora</strong></p>
+          <p>📅 Lunes a las 8:00 a.m.</p>
+          <p>📍 Instalación eléctrica en el patio de mi casa para conectar lavadora</p>
+          <div class="ch-card__actions">
+            <button class="ch-btn success">Aceptar</button>
+            <button class="ch-btn danger">Rechazar</button>
+            <button class="ch-btn info">Mensaje</button>
+          </div>
+        </div>
+        <div class="ch-card__img">
+          <img src="img/lavadora.jpeg" alt="Imagen del servicio">
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Enviadas -->
+    <div class="ch-tab-content" id="enviadas">
+      <p class="ch-empty">No has enviado solicitudes todavía.</p>
+    </div>
+  </main>
+
+  <script src="js/servicios.js"></script>
+</body>
+</html>

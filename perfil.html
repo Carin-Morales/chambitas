@@ -6,28 +6,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="css/style2.css">
+  <link rel="stylesheet" href="css/menu.css">
 
 
 </head>
-<header class="navbar">
-<div class="logo">
-<img src="img/logo.png" alt="Chambitas SV">
-</div>
-<nav>
-<ul>
-<li><a href="index.html">Inicio</a></li>
-<li><a href="index.html#categorias">Categorías</a></li>
-<li><a href="#">Perfil</a></li>
-</ul>
-</nav>
-</header>
+
+  <!-- Menú -->
+  <header class="ch-navbar">
+    <div class="ch-navbar__logo">
+      <img src="img/logo.png" alt="Chambitas SV">
+      <span>Chambitas SV</span>
+    </div>
+    <button class="ch-navbar__toggle" id="ch-navbar-toggle">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="ch-navbar__links" id="ch-navbar-links">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias" class="active">Categorías</a></li>
+        <li><a href="perfilusua.html">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
 <body>
 
 <div class="perfil-container">
+  
+<!-- Encabezado del perfil -->
 <section class="perfil1">
-<a href="electricidad.html"><i class="fa-solid fa-arrow-left"></i></a>
-<h2>Perfil</h2>
+  <a href="electricidad.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+  <h2>Perfil - Electricista</h2>
 </section>
+
 
 <!-- Info básica -->
 <div class="perfil-info">
@@ -99,11 +109,60 @@
 <!-- Botones -->
 <div class="perfil-footer">
 <button class="btn-green">Solicitar Servicio</button>
-<button class="btn-blue">Mensaje</button>
+ <button class="btn-blue" id="openChat">Mensaje</button>
 <button class="btn-red">Reportar Perfil</button>
 </div>
 </div>
 
+  <!-- Modal -->
+  <div class="modal-overlay" id="chatModal">
+    <div class="chat-window">
+      <div class="chat-header">
+        Juan Antonio Pérez
+        <span class="close-btn" id="closeChat">&times;</span>
+      </div>
+      <div class="chat-body">
+        <div class="msg left">
+          Hola Buenas Tardes, me gustaría cotizar un servicio
+          <span class="msg-time">09:16 a.m.</span>
+        </div>
+        <div class="msg right">
+          Claro dígame lo que necesita
+          <span class="msg-time">09:36 a.m.</span>
+        </div>
+        <div class="msg left">
+          <img src="https://via.placeholder.com/300x150.png?text=Foto+del+servicio" alt="Imagen">
+          <span class="msg-time">09:47 a.m.</span>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <input type="text" placeholder="Escribe un mensaje...">
+        <button>➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const openChat = document.getElementById('openChat');
+    const closeChat = document.getElementById('closeChat');
+    const chatModal = document.getElementById('chatModal');
+
+    openChat.addEventListener('click', () => {
+      chatModal.style.display = 'flex';
+    });
+
+    closeChat.addEventListener('click', () => {
+      chatModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === chatModal) {
+        chatModal.style.display = 'none';
+      }
+    });
+  </script>
+
+  
 </div>
 </body>
 </html>

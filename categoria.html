@@ -1,129 +1,268 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chambitas SV</title>
-<link rel="stylesheet" href="css/style2.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Fuente Montserrat -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chambitas SV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/cham.css">
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Montserrat", sans-serif;
+      background: #f7f9fc;
+      color: #333;
+    }
+
+    
+    /* ===== TITULO ===== */
+    .ch-title {
+      text-align: center;
+      margin: 5%;
+      padding: 30px 20px;
+    }
+    .ch-title h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #004aad;
+    }
+
+    /* ===== ACORDEON ===== */
+    .ch-accordion {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .ch-accordion__item {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .ch-accordion__label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #004aad;
+      transition: background 0.3s;
+    }
+    .ch-accordion__label:hover {
+      background: #f0f4ff;
+    }
+    .ch-accordion__label i {
+      transition: transform 0.3s;
+    }
+    .ch-accordion__content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 20px;
+    }
+    .ch-accordion__content ul {
+      list-style: none;
+      padding: 10px 0;
+    }
+    .ch-accordion__content li {
+      margin: 10px 0;
+    }
+    .ch-accordion__content a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s;
+    }
+    .ch-accordion__content a:hover {
+      color: #004aad;
+    }
+
+    /* Estado activo */
+    .ch-accordion__item.active .ch-accordion__content {
+      max-height: 500px;
+      padding: 15px 20px;
+    }
+    .ch-accordion__item.active .ch-accordion__label i {
+      transform: rotate(90deg);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .ch-navbar__links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #004aad;
+        width: 200px;
+        padding: 20px;
+      }
+      .ch-navbar__links ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .ch-navbar__toggle {
+        display: flex;
+      }
+      .ch-navbar__links.active {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- Navbar -->
-<header class="navbar">
-<div class="logo">
-<img src="img/logo.png" alt="Chambitas SV">
-</div>
-<nav>
-<ul>
-<li><a href="index.html">Inicio</a></li>
-<li><a href="index.html#categorias">Categorías</a></li>
-<li><a href="#">Perfil</a></li>
-</ul>
-</nav>
-</header>
 
-<!-- Título -->
-<section class="titulo">
-<h2>Categorías de Servicios</h2>
-</section>
+  <!-- Menú -->
+  <header class="ch-navbar">
+    <div class="ch-navbar__logo">
+      <img src="img/logo.png" alt="Chambitas SV">
+      <span>Chambitas SV</span>
+    </div>
+    <button class="ch-navbar__toggle" id="ch-navbar-toggle">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="ch-navbar__links" id="ch-navbar-links">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias" class="active">Categorías</a></li>
+        <li><a href="perfilusua.html">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<!-- Contenido -->
-<!--Acordeon--->
-<div class="acordeon-core">
+  <!-- Título -->
+  <section class="ch-title">
+    <h2>Categorías de Servicios</h2>
+  </section>
 
-<!--ACORDEON INICIO-->
-<div class="acordeon">
-<input id="acordeon-1" type="checkbox" name="acordeons">
-<label for="acordeon-1">Servicios del Hogar</label>
-<div class="acordeon-content">
+  <!-- Acordeón -->
+  <div class="ch-accordion">
 
-<ul class="servicios-lista">
-<li><a href="fontaneria.html"><i class="fa-solid fa-wrench"></i> Fontanería</a></li>
-<li><a href="electricidad.html"><i class="fa-solid fa-bolt"></i> Electricidad</a></li>
-<li><a href="carpinteria.html"><i class="fa-solid fa-hammer"></i> Carpintería</a></li>
-<li><a href="pintura.html"><i class="fa-solid fa-paint-roller"></i> Pintura</a></li>
-<li><a href="reformas.html"><i class="fa-solid fa-house"></i> Reformas y Construcción</a></li>
-</ul>
+    <!-- Item -->
+    <div class="ch-accordion__item">
+      <div class="ch-accordion__label">
+        <span>Servicios del Hogar</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="ch-accordion__content">
+        <ul>
+          <li><a href="electricidad.html"><i class="fa-solid fa-bolt"></i> Electricidad</a></li>
+         
+        </ul>
+      </div>
+    </div>
 
-</div>
-</div>
-<!--FINAL-->
+    <!-- Otro item -->
+    <div class="ch-accordion__item">
+      <div class="ch-accordion__label">
+        <span>Climatización</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="ch-accordion__content">
+        <ul>
+          <li><a href="aire.html"><i class="fa-solid fa-fan"></i> Instalación de aire acondicionado</a></li>
+        </ul>
+      </div>
+    </div>
 
+    <!-- Agrega más acordeones igual -->
+  </div>
 
-<!--ACORDEON INICIO2-->
-<div class="acordeon">
-<input id="acordeon-2" type="checkbox" name="acordeons">
-<label for="acordeon-2">Climatización</label>
-<div class="acordeon-content">
-<!--servicios-->
-<ul class="servicios-lista">
-<li><a href="aire.html"><i class="fa-solid fa-fan"></i> Instalación de aire acondicionado</a></li>
-</ul>
-</div>
-</div>
-<!--fin-->
-
-
-<!--ACORDEON INICIO2-->
-<div class="acordeon">
-<input id="acordeon-3" type="checkbox" name="acordeons">
-<label for="acordeon-3">Tecnología y Soporte</label>
-<div class="acordeon-content">
-<!--servicios-->
-<ul class="servicios-lista">
-<li><a href="tecnologia.html"><i class="fa-solid fa-laptop"></i> Reparación y mantenimiento de computadoras</a></li>
-</ul>
-
-</div>
+<div class="chatbot-btn" id="openChambot">
+  <i class="fa-solid fa-robot"></i>
 </div>
 
-
-<!--ACORDEON INICIO2-->
-<div class="acordeon">
-<input id="acordeon-4" type="checkbox" name="acordeons">
-<label for="acordeon-4">Limpieza y Mantenimiento</label>
-<div class="acordeon-content">
-<!--servicios-->
-<ul class="servicios-lista">
-<li><a href="limpieza.html"><i class="fa-solid fa-house"></i> Limpieza de casas/departamentos</a></li>
-<li><a href="pulido.html"><i class="fa-solid fa-star"></i> Pulido de pisos</a></li>
-</ul>
-
-</div>
-</div>
-
-<!--ACORDEON INICIO2-->
-<div class="acordeon">
-<input id="acordeon-5" type="checkbox" name="acordeons">
-<label for="acordeon-5">Exterior y Jardinería</label>
-<div class="acordeon-content">
-<!--servicios-->
-<ul class="servicios-lista">
-<li><a href="jardineria.html"><i class="fa-solid fa-tree"></i> Poda y mantenimiento de jardines</a></li>
-</ul>
-
-</div>
+<!-- Modal del Chatbot -->
+<div class="chambot-overlay" id="chambotModal">
+  <div class="chambot-window">
+    <div class="chambot-header">
+      CHAMBOT
+      <span class="close-btn" id="closeChambot">&times;</span>
+    </div>
+    <div class="chambot-body" id="chatBody">
+      <div class="msg bot"><div class="bubble">🤖 ¡Hola! Bienvenido a Chambitas SV.<br>Soy tu bot de ayuda, ¿qué puedo hacer por ti?</div></div>
+      <div class="options">
+        <button class="option-btn" onclick="showTutorial()">Cómo buscar un profesional</button>
+      </div>
+    </div>
+    
+  </div>
 </div>
 
-<!--ACORDEON INICIO2-->
-<div class="acordeon">
-<input id="acordeon-6" type="checkbox" name="acordeons">
-<label for="acordeon-6">Servicios Automotrices a Domicilio</label>
-<div class="acordeon-content">
-<!--servicios-->
-<ul class="servicios-lista">
-<li><a href="cambio-aceite.html"><i class="fa-solid fa-oil-can"></i> Cambio de aceite y filtros</a></li>
-</ul>
+  <script>
+    // Toggle menú
+    const toggleBtn = document.getElementById("ch-navbar-toggle");
+    const navLinks = document.getElementById("ch-navbar-links");
+    toggleBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
 
-</div>
-</div>
+    // Acordeón
+    const items = document.querySelectorAll(".ch-accordion__item");
+    items.forEach(item => {
+      const label = item.querySelector(".ch-accordion__label");
+      label.addEventListener("click", () => {
+        item.classList.toggle("active");
+      });
+    });
+  </script>
+  <script>
+const openChambot = document.getElementById('openChambot');
+const closeChambot = document.getElementById('closeChambot');
+const chambotModal = document.getElementById('chambotModal');
 
-<!--fin acordeon-->
-</div>
+openChambot.addEventListener('click', () => {
+  chambotModal.style.display = 'flex';
+});
+closeChambot.addEventListener('click', () => {
+  chambotModal.style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+  if (e.target === chambotModal) chambotModal.style.display = 'none';
+});
+
+// Dinámica de tutorial paso a paso
+function showTutorial() {
+  const chatBody = document.getElementById('chatBody');
+  const pasos = [
+    "Claro, te explico cómo 👇",
+    "Primero debes iniciar sesión o registrarte",
+    "<img src='img/1.png' alt='Login'>",
+    "Al iniciar sesión puedes buscar por medio de la barra de búsqueda lo que necesites",
+    "<img src='img/2.png' alt='Búsqueda'>",
+    "O puedes buscar por categoría",
+    "<img src='img/3.png' alt='Categorías'>",
+    "Elige el perfil que mejor te parezca y empieza",
+    "<img src='img/5.png' alt='Perfiles'>"
+  ];
+
+  pasos.forEach((p, i) => {
+    setTimeout(() => {
+      const msg = document.createElement("div");
+      msg.classList.add("msg","bot");
+      msg.innerHTML = `<div class="bubble">${p}</div>`;
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, i * 1500); // cada 1.5s aparece un mensaje
+  });
+}
+</script>
 
 
-<script src="main.js"></script>
+
 </body>
 </html>

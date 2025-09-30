@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+    }
+
+   
+    /* Contenedor general */
+    .container {
+      margin-top: 70px; /* espacio debajo del navbar */
+      padding: 30px;
+    }
+
+    /* Menú de perfil en bloque */
+    .profile-menu {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 0;
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #1e3c72, #4a86b9);
+      color: white;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .profile-links {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-links a {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 16px;
+      text-decoration: none;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .profile-links a i {
+      font-size: 18px;
+      color: #4a86b9;
+      width: 24px;
+      text-align: center;
+    }
+
+    .profile-links a:hover {
+      background: #f0f7ff;
+      color: #1e3c72;
+    }
+
+    .profile-links a.logout {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .profile-links a.logout i {
+      color: #e74c3c;
+    }
+
+    .profile-links a.logout:hover {
+      background: #fdecea;
+      color: #c0392b;
+    }
+
+    /* Más ancho, como parte de la página */
+    .profile-menu {
+      width: 100%;
+    }
+
+    /* Adaptable */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .profile-links a {
+        font-size: 15px;
+        padding: 16px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="ch-navbar">
+    <div class="ch-navbar__logo">
+      <img src="img/logo.png" alt="Chambitas SV">
+      <span>Chambitas SV</span>
+    </div>
+    <nav class="ch-navbar__links">
+      <ul>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias">Categorías</a></li>
+        <li><a href="perfilusua.html" class="active">Perfil</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Contenido -->
+  <div class="container">
+    <div class="profile-menu">
+      <div class="profile-header">Perfil</div>
+      <div class="profile-links">
+        <a href="configuracion.html"><i class="fa-solid fa-gear"></i> Información y configuración</a>
+        <a href="perfil-profesional.html"><i class="fa-solid fa-id-card"></i> Crear perfil profesional</a>
+        <a href="mis-servicios.html"><i class="fa-solid fa-briefcase"></i> Mis Servicios</a>
+        <a href="servicios-contratados.html"><i class="fa-solid fa-list-check"></i> Servicios contratados</a>
+        <a href="profesionales-guardados.html"><i class="fa-solid fa-star"></i> Profesionales guardados</a>
+        <a href="logout.html" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
