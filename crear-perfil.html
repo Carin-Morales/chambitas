@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Perfil Profesional | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb i {
+      font-size: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Create Profile Content */
+    .create-profile-container {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      height: 3px;
+      background: var(--primary);
+      z-index: 2;
+      transition: width 0.3s ease;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+    }
+
+    .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .step.active .step-icon {
+      background: var(--primary);
+      color: white;
+    }
+
+    .step.completed .step-icon {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .step-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+
+    .step.active .step-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Form Sections */
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .form-group label.required::after {
+      content: ' *';
+      color: #ef4444;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-help {
+      color: var(--text-light);
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    /* File Upload */
+    .file-upload {
+      border: 2px dashed #cbd5e1;
+      border-radius: var(--radius);
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .file-upload:hover {
+      border-color: var(--primary);
+    }
+
+    .file-upload i {
+      font-size: 2.5rem;
+      color: var(--text-light);
+      margin-bottom: 15px;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .uploaded-files {
+      margin-top: 15px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--bg);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+    }
+
+    .file-item i {
+      color: var(--secondary);
+    }
+
+    /* Skills Section */
+    .skills-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .skills-input input {
+      flex: 1;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tag {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remove-skill {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Form Navigation */
+    .form-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn:disabled {
+      background: #cbd5e1;
+      border-color: #cbd5e1;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .page-header {
+        padding: 20px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .create-profile-container {
+        padding: 20px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .progress-steps {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      
+      .step {
+        flex: 1;
+        min-width: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 18px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.3rem;
+      }
+      
+      .form-navigation {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="fas fa-hands-helping"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+     <li><a href="inicio.html" ><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html" class="active"><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html"><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html"><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+      <li><a href="historial.html" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Crear Perfil Profesional</span>
+      </div>
+      <h1>
+        <i class="fas fa-user-plus"></i>
+        Crear Perfil Profesional
+      </h1>
+    </section>
+
+    <!-- Create Profile Container -->
+    <div class="create-profile-container">
+      <!-- Progress Steps -->
+      <div class="progress-steps">
+        <div class="progress-bar" id="progressBar" style="width: 25%;"></div>
+        
+        <div class="step active" data-step="1">
+          <div class="step-icon">1</div>
+          <div class="step-label">Información Básica</div>
+        </div>
+        
+        <div class="step" data-step="2">
+          <div class="step-icon">2</div>
+          <div class="step-label">Experiencia</div>
+        </div>
+        
+        <div class="step" data-step="3">
+          <div class="step-icon">3</div>
+          <div class="step-label">Servicios</div>
+        </div>
+        
+        <div class="step" data-step="4">
+          <div class="step-icon">4</div>
+          <div class="step-label">Documentos</div>
+        </div>
+      </div>
+
+      <!-- Step 1: Información Básica -->
+      <div class="form-section active" id="step1">
+        <h2 class="section-title"><i class="fas fa-user"></i> Información Básica</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="firstName" class="required">Nombre</label>
+            <input type="text" id="firstName" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="lastName" class="required">Apellido</label>
+            <input type="text" id="lastName" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="professionalTitle" class="required">Profesion</label>
+            <input type="text" id="professionalTitle" class="form-control" placeholder="Ej: Electricista Certificado" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="category" class="required">Categoría Principal</label>
+            <select id="category" class="form-control" required>
+              <option value="">Seleccionar categoría</option>
+              <option value="electricista">Electricista</option>
+              <option value="plomero">Plomero</option>
+              <option value="pintor">Pintor</option>
+              <option value="tecnico">Técnico</option>
+              <option value="limpieza">Limpieza</option>
+              <option value="belleza">Belleza</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone" class="required">Teléfono</label>
+            <input type="tel" id="phone" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="required">Email</label>
+            <input type="email" id="email" class="form-control" required>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="location" class="required">Ubicación de Servicio</label>
+            <input type="text" id="location" class="form-control" placeholder="Ciudades o zonas donde prestas servicio" required>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="bio" class="required">Biografía Profesional</label>
+            <textarea id="bio" class="form-control" placeholder="Cuéntanos sobre tu experiencia, especialidades y enfoque profesional..." required></textarea>
+            <div class="form-help">Mínimo 100 caracteres</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Experiencia -->
+      <div class="form-section" id="step2">
+        <h2 class="section-title"><i class="fas fa-briefcase"></i> Experiencia y Educación</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="experience" class="required">Años de Experiencia</label>
+            <select id="experience" class="form-control" required>
+              <option value="">Seleccionar</option>
+              <option value="0-1">Menos de 1 año</option>
+              <option value="1-3">1-3 años</option>
+              <option value="3-5">3-5 años</option>
+              <option value="5-10">5-10 años</option>
+              <option value="10+">Más de 10 años</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="education">Nivel de Educación</label>
+            <select id="education" class="form-control">
+              <option value="">Seleccionar</option>
+              <option value="bachiller">Bachiller</option>
+              <option value="tecnico">Técnico</option>
+              <option value="universitario">Universitario</option>
+              <option value="posgrado">Posgrado</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="certifications">Certificaciones</label>
+            <textarea id="certifications" class="form-control" placeholder="Lista tus certificaciones, cursos o entrenamientos especializados..."></textarea>
+          </div>
+          
+          <div class="form-group full-width">
+            <label>Habilidades y Especialidades</label>
+            <div class="skills-input">
+              <input type="text" id="skillInput" class="form-control" placeholder="Agregar habilidad...">
+              <button type="button" class="btn" id="addSkill">
+                <i class="fas fa-plus"></i>
+                Agregar
+              </button>
+            </div>
+            <div class="skills-list" id="skillsList">
+              <!-- Las habilidades se agregarán aquí dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Servicios -->
+      <div class="form-section" id="step3">
+        <h2 class="section-title"><i class="fas fa-concierge-bell"></i> Servicios y Precios</h2>
+        
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="services" class="required">Servicios Ofrecidos</label>
+            <textarea id="services" class="form-control" placeholder="Describe detalladamente los servicios que ofreces..." required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="rateType" class="required">Tipo de Tarifa</label>
+            <select id="rateType" class="form-control" required>
+              <option value="">Seleccionar</option>
+              <option value="hora">Por hora</option>
+              <option value="proyecto">Por proyecto</option>
+              <option value="ambos">Ambos</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="hourlyRate">Tarifa por Hora ($)</label>
+            <input type="number" id="hourlyRate" class="form-control" placeholder="0.00" min="0" step="0.01">
+          </div>
+          
+          <div class="form-group">
+            <label for="availability" class="required">Disponibilidad</label>
+            <select id="availability" class="form-control" required>
+              <option value="">Seleccionar</option>
+              <option value="full-time">Tiempo completo</option>
+              <option value="part-time">Medio tiempo</option>
+              <option value="weekends">Fines de semana</option>
+              <option value="flexible">Horario flexible</option>
+            </select>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="responseTime" class="required">Tiempo de Respuesta</label>
+            <select id="responseTime" class="form-control" required>
+              <option value="">Seleccionar</option>
+              <option value="1h">Menos de 1 hora</option>
+              <option value="4h">Menos de 4 horas</option>
+              <option value="24h">Menos de 24 horas</option>
+              <option value="48h">Menos de 48 horas</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Documentos -->
+      <div class="form-section" id="step4">
+        <h2 class="section-title"><i class="fas fa-file-alt"></i> Documentos y Verificación</h2>
+        
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label class="required">Foto de Perfil</label>
+            <div class="file-upload" id="profilePhotoUpload">
+              <i class="fas fa-camera"></i>
+              <p>Haz clic para subir tu foto de perfil</p>
+              <p class="form-help">Formatos: JPG, PNG (Máx. 5MB)</p>
+              <input type="file" id="profilePhoto" accept="image/*">
+            </div>
+          </div>
+          
+          <div class="form-group full-width">
+            <label class="required">Documento de Identificación</label>
+            <div class="file-upload" id="idUpload">
+              <i class="fas fa-id-card"></i>
+              <p>Haz clic para subir DUI o documento de identidad</p>
+              <p class="form-help">Formatos: PDF, JPG, PNG (Máx. 10MB)</p>
+              <input type="file" id="idDocument" accept=".pdf,.jpg,.png">
+            </div>
+          </div>
+          
+          <div class="form-group full-width">
+            <label>Certificaciones (Opcional)</label>
+            <div class="file-upload" id="certificationsUpload">
+              <i class="fas fa-award"></i>
+              <p>Haz clic para subir certificaciones</p>
+              <p class="form-help">Formatos: PDF, JPG, PNG (Máx. 10MB cada uno)</p>
+              <input type="file" id="certificationsDoc" accept=".pdf,.jpg,.png" multiple>
+            </div>
+          </div>
+          
+          <div class="form-group full-width">
+            <label>Portafolio de Trabajos (Opcional)</label>
+            <div class="file-upload" id="portfolioUpload">
+              <i class="fas fa-images"></i>
+              <p>Haz clic para subir fotos de trabajos anteriores</p>
+              <p class="form-help">Formatos: JPG, PNG (Máx. 5MB cada una)</p>
+              <input type="file" id="portfolio" accept="image/*" multiple>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Navigation -->
+      <div class="form-navigation">
+        <button class="btn btn-outline" id="prevBtn" disabled>
+          <i class="fas fa-arrow-left"></i>
+          Anterior
+        </button>
+        
+        <button class="btn" id="nextBtn">
+          Siguiente
+          <i class="fas fa-arrow-right"></i>
+        </button>
+        
+        <button class="btn" id="submitBtn" style="display: none;">
+          <i class="fas fa-check"></i>
+          Completar Registro
+        </button>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Navegación entre pasos del formulario
+  const steps = document.querySelectorAll('.step');
+  const formSections = document.querySelectorAll('.form-section');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const submitBtn = document.getElementById('submitBtn');
+  const progressBar = document.getElementById('progressBar');
+  
+  let currentStep = 1;
+  const totalSteps = 4;
+  
+  function updateProgress() {
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    progressBar.style.width = `${progress}%`;
+    
+    // Actualizar estados de los pasos
+    steps.forEach((step, index) => {
+      const stepNumber = parseInt(step.getAttribute('data-step'));
+      step.classList.remove('active', 'completed');
+      
+      if (stepNumber < currentStep) {
+        step.classList.add('completed');
+      } else if (stepNumber === currentStep) {
+        step.classList.add('active');
+      }
+    });
+    
+    // Mostrar/ocultar secciones
+    formSections.forEach(section => {
+      section.classList.remove('active');
+    });
+    document.getElementById(`step${currentStep}`).classList.add('active');
+    
+    // Actualizar botones
+    prevBtn.disabled = currentStep === 1;
+    
+    if (currentStep === totalSteps) {
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-flex';
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      submitBtn.style.display = 'none';
+    }
+  }
+  
+  nextBtn.addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateProgress();
+    }
+  });
+  
+  prevBtn.addEventListener('click', () => {
+    if (currentStep > 1) {
+      currentStep--;
+      updateProgress();
+    }
+  });
+  
+  // Funcionalidad de habilidades
+  const skillInput = document.getElementById('skillInput');
+  const addSkillBtn = document.getElementById('addSkill');
+  const skillsList = document.getElementById('skillsList');
+  
+  addSkillBtn.addEventListener('click', function() {
+    const skill = skillInput.value.trim();
+    if (skill) {
+      const skillElement = document.createElement('div');
+      skillElement.className = 'skill-tag';
+      skillElement.innerHTML = `
+        ${skill}
+        <button type="button" class="remove-skill">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      skillsList.appendChild(skillElement);
+      skillInput.value = '';
+      
+      // Agregar funcionalidad de eliminar
+      const removeBtn = skillElement.querySelector('.remove-skill');
+      removeBtn.addEventListener('click', function() {
+        skillElement.remove();
+      });
+    }
+  });
+  
+  skillInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addSkillBtn.click();
+    }
+  });
+  
+  // Funcionalidad de subida de archivos
+  const fileUploads = document.querySelectorAll('.file-upload');
+  fileUploads.forEach(upload => {
+    const input = upload.querySelector('input[type="file"]');
+    
+    upload.addEventListener('click', function() {
+      input.click();
+    });
+    
+    input.addEventListener('change', function() {
+      if (this.files.length > 0) {
+        const fileName = this.files[0].name;
+        upload.innerHTML = `
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <p>Archivo subido: ${fileName}</p>
+          <p class="form-help">Haz clic para cambiar</p>
+          ${input.outerHTML}
+        `;
+        
+        // Re-asignar el event listener al nuevo input
+        const newInput = upload.querySelector('input[type="file"]');
+        newInput.addEventListener('change', arguments.callee);
+      }
+    });
+  });
+  
+  // Envío del formulario
+  submitBtn.addEventListener('click', function() {
+    // Aquí iría la lógica de validación y envío del formulario
+    alert('¡Perfil profesional creado exitosamente! Será revisado por nuestro equipo.');
+    // window.location.href = 'index.html';
+  });
+  
+  // Inicializar progreso
+  updateProgress();
+</script>
+
+</body>
+</html>

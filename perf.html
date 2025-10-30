@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carlos Rodríguez - Electricista | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb i {
+      font-size: 0.8rem;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid var(--secondary);
+      flex-shrink: 0;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .profile-info h1 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .verified-badge {
+      background: var(--secondary);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .profile-title {
+      color: var(--text-light);
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 25px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-item i {
+      color: var(--secondary);
+      font-size: 1.2rem;
+    }
+
+    .stat-value {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+    }
+
+    .btn-large {
+      padding: 15px 30px;
+      font-size: 1rem;
+    }
+
+    /* Profile Sections */
+    .profile-section {
+      background: var(--light);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* About Section */
+    .about-content {
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* Skills Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .skill-item {
+      background: var(--bg);
+      padding: 15px;
+      border-radius: var(--radius);
+      border-left: 4px solid var(--primary);
+    }
+
+    .skill-item h4 {
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .skill-item p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Portfolio Section */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .portfolio-item {
+      background: var(--bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .portfolio-image {
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+
+    .portfolio-info {
+      padding: 15px;
+    }
+
+    .portfolio-info h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .portfolio-info p {
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    /* Reviews Section */
+    .review-item {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-bottom: 15px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .reviewer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reviewer-details h4 {
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+
+    .review-date {
+      color: var(--text-light);
+      font-size: 0.8rem;
+    }
+
+    .review-rating {
+      color: #fbbf24;
+    }
+
+    .review-content {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: var(--light);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    /* Contact Info */
+    .contact-info {
+      background: var(--bg);
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: var(--light);
+      border-radius: var(--radius);
+      transition: transform 0.3s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateX(5px);
+    }
+
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contact-details h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .contact-details p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    /* Tablets */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+    }
+
+    /* Teléfonos grandes y tablets pequeñas */
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .profile-avatar {
+        align-self: center;
+      }
+      
+      .profile-stats {
+        justify-content: center;
+      }
+      
+      .profile-actions {
+        justify-content: center;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Teléfonos pequeños */
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 20px;
+      }
+      
+      .profile-info h1 {
+        font-size: 1.6rem;
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .profile-stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .skills-grid, .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .profile-section {
+        padding: 20px;
+      }
+    }
+
+    /* Modal de Contacto */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: var(--radius);
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+    }
+
+    .modal-title {
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="fas fa-hands-helping"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+     <li><a href="inicio.html" ><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html"><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html" class="active"><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html"><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+      <li><a href="historial.html" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar servicios...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="categorias.html">Categorías</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="electricistas.html">Electricistas</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Carlos Rodríguez</span>
+      </div>
+    </section>
+
+    <!-- Profile Header -->
+    <section class="profile-section">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Rodríguez">
+        </div>
+        <div class="profile-info">
+          <h1>
+            Carlos Rodríguez
+            <span class="verified-badge"><i class="fas fa-check"></i> Verificado</span>
+          </h1>
+          <p class="profile-title">Electricista Certificado con 10+ años de experiencia</p>
+          
+          <div class="profile-stats">
+            <div class="stat-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <div class="stat-value">4.9/5</div>
+                <div class="stat-label">Calificación</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-briefcase"></i>
+              <div>
+                <div class="stat-value">142</div>
+                <div class="stat-label">Trabajos</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <div class="stat-value"> Usulután, Santa Elena</div>
+                <div class="stat-label">Ubicación</div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-clock"></i>
+              <div>
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Disponibilidad</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn btn-large" onclick="openContactModal()">
+              <i class="fas fa-comment"></i>
+              Contactar
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-heart"></i>
+              Favorito
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-message"></i>
+              Chat
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="profile-section">
+      <h2 class="section-title"><i class="fas fa-user"></i> Sobre Mí</h2>
+      <div class="about-content">
+        <p>Soy electricista certificado con más de 10 años de experiencia en instalaciones eléctricas residenciales y comerciales. Me especializo en:</p>
+        <ul style="margin: 15px 0; padding-left: 20px; color: var(--text-light);">
+          <li>Instalaciones eléctricas nuevas</li>
+          <li>Reparaciones y mantenimiento preventivo</li>
+          <li>Sistemas de iluminación eficiente</li>
+          <li>Paneles solares y energías renovables</li>
+          <li>Automatización residencial</li>
+        </ul>
+        <p>Mi objetivo es proporcionar soluciones eléctricas seguras, eficientes y de calidad, cumpliendo con todos los estándares de seguridad eléctrica.</p>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="profile-section">
+      <h2 class="section-title"><i class="fas fa-tools"></i> Especialidades</h2>
+      <div class="skills-grid">
+        <div class="skill-item">
+          <h4>Instalaciones Eléctricas</h4>
+          <p>Instalación completa de sistemas eléctricos para viviendas y comercios.</p>
+        </div>
+        <div class="skill-item">
+          <h4>Reparaciones de Emergencia</h4>
+          <p>Servicio 24/7 para emergencias eléctricas y fallas críticas.</p>
+        </div>
+        <div class="skill-item">
+          <h4>Paneles Solares</h4>
+          <p>Instalación y mantenimiento de sistemas de energía solar.</p>
+        </div>
+        <div class="skill-item">
+          <h4>Automatización</h4>
+          <p>Sistemas de domótica y control automatizado para hogares.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="profile-section">
+      <h2 class="section-title"><i class="fas fa-images"></i> Trabajos Realizados</h2>
+      <div class="portfolio-grid">
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="portfolio-info">
+            <h4>Casa Residencial</h4>
+            <p>Instalación eléctrica completa en vivienda de 3 habitaciones</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-store"></i>
+          </div>
+          <div class="portfolio-info">
+            <h4>Local Comercial</h4>
+            <p>Modernización del sistema eléctrico para tienda comercial</p>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-image">
+            <i class="fas fa-sun"></i>
+          </div>
+          <div class="portfolio-info">
+            <h4>Sistema Solar</h4>
+            <p>Instalación de paneles solares para vivienda unifamiliar</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="profile-section">
+      <h2 class="section-title"><i class="fas fa-star"></i> Reseñas (24)</h2>
+      
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="María González">
+            </div>
+            <div class="reviewer-details">
+              <h4>María González</h4>
+              <div class="review-date">Hace 2 semanas</div>
+            </div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <div class="review-content">
+          Excelente trabajo! Carlos resolvió un problema eléctrico que tenía en mi casa rápidamente y con mucha profesionalidad. Muy recomendado.
+        </div>
+      </div>
+
+      <div class="review-item">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="reviewer-avatar">
+              <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Roberto Silva">
+            </div>
+            <div class="reviewer-details">
+              <h4>Roberto Silva</h4>
+              <div class="review-date">Hace 1 mes</div>
+            </div>
+          </div>
+          <div class="review-rating">★★★★★</div>
+        </div>
+        <div class="review-content">
+          Contraté a Carlos para la instalación eléctrica de mi negocio. Cumplió con todos los plazos y el trabajo fue impecable. Volveré a contratarlo.
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+
+<!-- Modal de Contacto -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeContactModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 class="modal-title">Contactar a Carlos Rodríguez</h2>
+    
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="contact-details">
+          <h4>Teléfono</h4>
+          <p>+503 1234-5678</p>
+        </div>
+      </div>
+      
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-details">
+          <h4>Email</h4>
+          <p>carlos.electricista@chambitassv.com</p>
+        </div>
+      </div>
+      
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="contact-details">
+          <h4>Ubicación</h4>
+          <p>San Salvador, El Salvador</p>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Tu Nombre *</label>
+          <input type="text" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Tu Teléfono *</label>
+          <input type="tel" id="phone" class="form-control" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Tu Email *</label>
+        <input type="email" id="email" class="form-control" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="service">Tipo de Servicio *</label>
+        <select id="service" class="form-control" required>
+          <option value="">Seleccionar servicio...</option>
+          <option value="instalacion">Instalación Eléctrica</option>
+          <option value="reparacion">Reparación</option>
+          <option value="mantenimiento">Mantenimiento</option>
+          <option value="emergencia">Emergencia</option>
+          <option value="solar">Energía Solar</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="message">Descripción del Trabajo *</label>
+        <textarea id="message" class="form-control" placeholder="Describe el trabajo que necesitas..." required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="budget">Presupuesto Aproximado</label>
+        <input type="text" id="budget" class="form-control" placeholder="Ej: $100 - $200">
+      </div>
+      
+      <div class="form-group">
+        <label for="urgency">Urgencia</label>
+        <select id="urgency" class="form-control">
+          <option value="normal">Normal (1-2 semanas)</option>
+          <option value="urgente">Urgente (2-3 días)</option>
+          <option value="emergencia">Emergencia (24 horas)</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-large" style="width: 100%;">
+        <i class="fas fa-paper-plane"></i>
+        Enviar Solicitud
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Funcionalidad del modal de contacto
+  const contactModal = document.getElementById('contactModal');
+  
+  function openContactModal() {
+    contactModal.classList.add('active');
+  }
+  
+  function closeContactModal() {
+    contactModal.classList.remove('active');
+  }
+  
+  // Cerrar modal al hacer clic fuera
+  contactModal.addEventListener('click', (e) => {
+    if (e.target === contactModal) {
+      closeContactModal();
+    }
+  });
+  
+  // Envío del formulario de contacto
+  const contactForm = document.getElementById('contactForm');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    // Aquí iría la lógica de envío del formulario
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
+    
+    console.log('Datos del formulario:', data);
+    
+    // Simular envío exitoso
+    alert('¡Solicitud enviada con éxito! Carlos se pondrá en contacto contigo pronto.');
+    closeContactModal();
+    contactForm.reset();
+  });
+</script>
+
+</body>
+</html>

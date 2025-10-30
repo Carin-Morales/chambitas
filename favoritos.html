@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favoritos | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb i {
+      font-size: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Favorites Content */
+    .favorites-section {
+      background: var(--light);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .favorites-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .favorite-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .favorite-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .favorite-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .favorite-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--secondary);
+      flex-shrink: 0;
+    }
+
+    .favorite-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .favorite-info {
+      flex: 1;
+    }
+
+    .favorite-info h3 {
+      color: var(--primary);
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .favorite-category {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .favorite-rating {
+      color: #fbbf24;
+      font-size: 0.9rem;
+    }
+
+    .favorite-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: 2px solid #ef4444;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .remove-favorite {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .remove-favorite:hover {
+      color: #ef4444;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    /* Tablets */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+      
+      .favorites-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+
+    /* Teléfonos grandes y tablets pequeñas */
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .page-header {
+        padding: 20px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .favorites-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .favorite-actions {
+        flex-direction: column;
+      }
+    }
+
+    /* Teléfonos pequeños */
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 18px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.3rem;
+      }
+      
+      .favorites-section {
+        padding: 18px;
+      }
+      
+      .favorite-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .favorite-avatar {
+        align-self: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="fas fa-hands-helping"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+     <li><a href="inicio.html" ><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html"><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html" ><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html" class="active"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html"><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+      <li><a href="historial.html" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar en favoritos...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Favoritos</span>
+      </div>
+      <h1>
+        <i class="fas fa-heart"></i>
+        Mis Favoritos
+      </h1>
+    </section>
+
+    <!-- Favorites Section -->
+    <section class="favorites-section">
+      <h2 class="section-title">Profesionales Guardados</h2>
+      
+      <div class="favorites-grid">
+        <!-- Favorito 1 -->
+        <div class="favorite-card">
+          <button class="remove-favorite" title="Quitar de favoritos">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="favorite-header">
+            <div class="favorite-avatar">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Rodríguez">
+            </div>
+            <div class="favorite-info">
+              <h3>Carlos Rodríguez</h3>
+              <p class="favorite-category">Electricista Certificado</p>
+              <div class="favorite-rating">★★★★★ (24)</div>
+            </div>
+          </div>
+          <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">
+            Especialista en instalaciones eléctricas residenciales y comerciales.
+          </p>
+          <div class="favorite-actions">
+            <button class="btn">
+              <i class="fas fa-comment"></i>
+              Contactar
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-eye"></i>
+              Ver Perfil
+            </button>
+          </div>
+        </div>
+
+        <!-- Favorito 2 -->
+        <div class="favorite-card">
+          <button class="remove-favorite" title="Quitar de favoritos">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="favorite-header">
+            <div class="favorite-avatar">
+              <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ana Martínez">
+            </div>
+            <div class="favorite-info">
+              <h3>Ana Martínez</h3>
+              <p class="favorite-category">Ingeniera Eléctrica</p>
+              <div class="favorite-rating">★★★★★ (32)</div>
+            </div>
+          </div>
+          <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">
+            Especializada en diseño de sistemas industriales y comerciales.
+          </p>
+          <div class="favorite-actions">
+            <button class="btn">
+              <i class="fas fa-comment"></i>
+              Contactar
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-eye"></i>
+              Ver Perfil
+            </button>
+          </div>
+        </div>
+
+        <!-- Favorito 3 -->
+        <div class="favorite-card">
+          <button class="remove-favorite" title="Quitar de favoritos">
+            <i class="fas fa-times"></i>
+          </button>
+          <div class="favorite-header">
+            <div class="favorite-avatar">
+              <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Miguel Torres">
+            </div>
+            <div class="favorite-info">
+              <h3>Miguel Torres</h3>
+              <p class="favorite-category">Técnico Electricista</p>
+              <div class="favorite-rating">★★★★☆ (18)</div>
+            </div>
+          </div>
+          <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">
+            Especializado en emergencias eléctricas y sistemas de energía solar.
+          </p>
+          <div class="favorite-actions">
+            <button class="btn">
+              <i class="fas fa-comment"></i>
+              Contactar
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-eye"></i>
+              Ver Perfil
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <!-- <div class="empty-state">
+        <i class="fas fa-heart"></i>
+        <h3>No tienes favoritos guardados</h3>
+        <p>Comienza a guardar tus profesionales favoritos para acceder a ellos rápidamente.</p>
+        <button class="btn" style="margin-top: 20px;">
+          <i class="fas fa-search"></i>
+          Explorar Profesionales
+        </button>
+      </div> -->
+    </section>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Funcionalidad de eliminar favoritos
+  const removeButtons = document.querySelectorAll('.remove-favorite');
+  removeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const card = this.closest('.favorite-card');
+      card.style.opacity = '0';
+      card.style.transform = 'translateX(100px)';
+      setTimeout(() => {
+        card.remove();
+        
+        // Mostrar empty state si no hay más favoritos
+        const remainingFavorites = document.querySelectorAll('.favorite-card').length;
+        if (remainingFavorites === 0) {
+          // Aquí podrías mostrar el empty state
+        }
+      }, 300);
+    });
+  });
+</script>
+
+</body>
+</html>

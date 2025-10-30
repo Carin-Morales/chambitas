@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Servicios | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb i {
+      font-size: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Stats Overview */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: var(--light);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s ease;
+      border-top: 4px solid var(--primary);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card.pending {
+      border-top-color: var(--warning);
+    }
+
+    .stat-card.accepted {
+      border-top-color: var(--success);
+    }
+
+    .stat-card.completed {
+      border-top-color: var(--secondary);
+    }
+
+    .stat-card.rejected {
+      border-top-color: var(--danger);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 1.5rem;
+    }
+
+    .stat-card .stat-icon {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+    }
+
+    .stat-card.pending .stat-icon {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .stat-card.accepted .stat-icon {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .stat-card.completed .stat-icon {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--secondary);
+    }
+
+    .stat-card.rejected .stat-icon {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Services Tabs */
+    .services-tabs {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
+    .tabs-header {
+      display: flex;
+      border-bottom: 1px solid #e2e8f0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 15px 25px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--text-light);
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .tab-badge {
+      background: var(--primary);
+      color: white;
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .tab-content {
+      padding: 0;
+    }
+
+    .tab-pane {
+      display: none;
+      padding: 25px;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Section Title */
+    .section-title {
+      color: var(--primary);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--warning);
+      position: relative;
+    }
+
+    .service-card.pending {
+      border-left-color: var(--warning);
+    }
+
+    .service-card.accepted {
+      border-left-color: var(--success);
+    }
+
+    .service-card.completed {
+      border-left-color: var(--secondary);
+    }
+
+    .service-card.rejected {
+      border-left-color: var(--danger);
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .service-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .service-professional {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .professional-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .professional-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .professional-info h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .professional-info p {
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    .service-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .status-accepted {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .status-completed {
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+    }
+
+    .status-rejected {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    .service-details {
+      margin-bottom: 20px;
+    }
+
+    .service-details h4 {
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .service-details p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+    }
+
+    .service-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex: 1;
+      justify-content: center;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      border: 2px solid var(--success);
+    }
+
+    .btn-success:hover {
+      background: #0da271;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      border: 2px solid var(--danger);
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      border: 2px solid var(--warning);
+    }
+
+    .btn-warning:hover {
+      background: #d97706;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    /* Tablets */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Teléfonos grandes y tablets pequeñas */
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .page-header {
+        padding: 20px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .tabs-header {
+        flex-direction: column;
+      }
+      
+      .tab-btn {
+        justify-content: center;
+      }
+      
+      .service-actions {
+        flex-direction: column;
+      }
+    }
+
+    /* Teléfonos pequeños */
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 18px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.3rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .service-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .service-professional {
+        width: 100%;
+      }
+      
+      .service-meta {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="fas fa-hands-helping"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+        <li><a href="inicio.html" ><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html" ><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html"><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html"><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+       <li><a href="historial.html" class="active" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar en mis servicios...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Mis Servicios</span>
+      </div>
+      <h1>
+        <i class="fas fa-history"></i>
+        Historial de Servicios
+      </h1>
+      <p style="opacity: 0.9; margin-top: 8px;">Revisa el estado de todos los servicios que has solicitado</p>
+    </section>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+      <div class="stat-card pending">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-value">3</div>
+        <div class="stat-label">Pendientes</div>
+      </div>
+      
+      <div class="stat-card accepted">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Aceptados</div>
+      </div>
+      
+      <div class="stat-card completed">
+        <div class="stat-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <div class="stat-value">8</div>
+        <div class="stat-label">Completados</div>
+      </div>
+      
+      <div class="stat-card rejected">
+        <div class="stat-icon">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="stat-value">1</div>
+        <div class="stat-label">Rechazados</div>
+      </div>
+    </div>
+
+    <!-- Services Tabs -->
+    <div class="services-tabs">
+      <div class="tabs-header">
+        <button class="tab-btn active" data-tab="all">
+          <i class="fas fa-list"></i>
+          Todos los Servicios
+        </button>
+        <button class="tab-btn" data-tab="pending">
+          <i class="fas fa-clock"></i>
+          Pendientes
+          <span class="tab-badge">3</span>
+        </button>
+        <button class="tab-btn" data-tab="accepted">
+          <i class="fas fa-check-circle"></i>
+          Aceptados
+          <span class="tab-badge">2</span>
+        </button>
+        <button class="tab-btn" data-tab="completed">
+          <i class="fas fa-tasks"></i>
+          Completados
+        </button>
+        <button class="tab-btn" data-tab="rejected">
+          <i class="fas fa-times-circle"></i>
+          Rechazados
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Tab: Todos los Servicios -->
+        <div class="tab-pane active" id="all-tab">
+          <h2 class="section-title">Todos mis Servicios</h2>
+          
+          <div class="services-grid">
+            <!-- Servicio Pendiente -->
+            <div class="service-card pending">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Rodríguez">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Carlos Rodríguez</h4>
+                    <p>Electricista Certificado</p>
+                  </div>
+                </div>
+                <div class="service-status status-pending">Pendiente</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de tomas corrientes</h4>
+                <p>Necesito instalar 3 tomas corrientes adicionales en mi sala de estar.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 15 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $80 - $120</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(1)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-danger" onclick="cancelService(1)">
+                  <i class="fas fa-times"></i>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+
+            <!-- Servicio Aceptado -->
+            <div class="service-card accepted">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Miguel Torres">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Miguel Torres</h4>
+                    <p>Técnico Electricista</p>
+                  </div>
+                </div>
+                <div class="service-status status-accepted">Aceptado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Reparación de falla eléctrica</h4>
+                <p>Problema con breakers que se disparan constantemente en las noches.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> Programado: 18 Mar</span>
+                <span><i class="fas fa-dollar-sign"></i> $150</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(2)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn" onclick="contactProfessional(2)">
+                  <i class="fas fa-comment"></i>
+                  Contactar
+                </button>
+              </div>
+            </div>
+
+            <!-- Servicio Completado -->
+            <div class="service-card completed">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ana Martínez">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Ana Martínez</h4>
+                    <p>Ingeniera Eléctrica</p>
+                  </div>
+                </div>
+                <div class="service-status status-completed">Completado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Mantenimiento eléctrico preventivo</h4>
+                <p>Revisión completa del sistema eléctrico de la casa.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 10 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $120</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(3)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-success" onclick="rateService(3)">
+                  <i class="fas fa-star"></i>
+                  Calificar
+                </button>
+              </div>
+            </div>
+
+            <!-- Servicio Rechazado -->
+            <div class="service-card rejected">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="José Herrera">
+                  </div>
+                  <div class="professional-info">
+                    <h4>José Herrera</h4>
+                    <p>Electricista Residencial</p>
+                  </div>
+                </div>
+                <div class="service-status status-rejected">Rechazado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de ventilador de techo</h4>
+                <p>Profesional no disponible en la fecha solicitada.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 8 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $60 - $90</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(4)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn" onclick="findSimilarProfessional(4)">
+                  <i class="fas fa-search"></i>
+                  Buscar Similar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Servicios Pendientes -->
+        <div class="tab-pane" id="pending-tab">
+          <h2 class="section-title">Servicios Pendientes de Aprobación</h2>
+          
+          <div class="services-grid">
+            <!-- Servicio Pendiente 1 -->
+            <div class="service-card pending">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Rodríguez">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Carlos Rodríguez</h4>
+                    <p>Electricista Certificado</p>
+                  </div>
+                </div>
+                <div class="service-status status-pending">Pendiente</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de tomas corrientes</h4>
+                <p>Necesito instalar 3 tomas corrientes adicionales en mi sala de estar.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 15 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $80 - $120</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(1)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-danger" onclick="cancelService(1)">
+                  <i class="fas fa-times"></i>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+
+            <!-- Servicio Pendiente 2 -->
+            <div class="service-card pending">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Roberto Silva">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Roberto Silva</h4>
+                    <p>Especialista en Iluminación</p>
+                  </div>
+                </div>
+                <div class="service-status status-pending">Pendiente</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de luces LED</h4>
+                <p>Cambio de iluminación tradicional a LED en toda la casa.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 16 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $200 - $300</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(5)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-danger" onclick="cancelService(5)">
+                  <i class="fas fa-times"></i>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Servicios Aceptados -->
+        <div class="tab-pane" id="accepted-tab">
+          <h2 class="section-title">Servicios Aceptados</h2>
+          
+          <div class="services-grid">
+            <!-- Servicio Aceptado 1 -->
+            <div class="service-card accepted">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Miguel Torres">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Miguel Torres</h4>
+                    <p>Técnico Electricista</p>
+                  </div>
+                </div>
+                <div class="service-status status-accepted">Aceptado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Reparación de falla eléctrica</h4>
+                <p>Problema con breakers que se disparan constantemente en las noches.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> Programado: 18 Mar</span>
+                <span><i class="fas fa-dollar-sign"></i> $150</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(2)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn" onclick="contactProfessional(2)">
+                  <i class="fas fa-comment"></i>
+                  Contactar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Servicios Completados -->
+        <div class="tab-pane" id="completed-tab">
+          <h2 class="section-title">Servicios Completados</h2>
+          
+          <div class="services-grid">
+            <!-- Servicio Completado 1 -->
+            <div class="service-card completed">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ana Martínez">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Ana Martínez</h4>
+                    <p>Ingeniera Eléctrica</p>
+                  </div>
+                </div>
+                <div class="service-status status-completed">Completado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Mantenimiento eléctrico preventivo</h4>
+                <p>Revisión completa del sistema eléctrico de la casa.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 10 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $120</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(3)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-success" onclick="rateService(3)">
+                  <i class="fas fa-star"></i>
+                  Calificar
+                </button>
+              </div>
+            </div>
+
+            <!-- Servicio Completado 2 -->
+            <div class="service-card completed">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Luis García">
+                  </div>
+                  <div class="professional-info">
+                    <h4>Luis García</h4>
+                    <p>Electricista Industrial</p>
+                  </div>
+                </div>
+                <div class="service-status status-completed">Completado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de panel solar</h4>
+                <p>Instalación completa de sistema de paneles solares residencial.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 5 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $800</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(6)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn btn-success" onclick="rateService(6)">
+                  <i class="fas fa-star"></i>
+                  Calificar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Servicios Rechazados -->
+        <div class="tab-pane" id="rejected-tab">
+          <h2 class="section-title">Servicios Rechazados</h2>
+          
+          <div class="services-grid">
+            <!-- Servicio Rechazado 1 -->
+            <div class="service-card rejected">
+              <div class="service-header">
+                <div class="service-professional">
+                  <div class="professional-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="José Herrera">
+                  </div>
+                  <div class="professional-info">
+                    <h4>José Herrera</h4>
+                    <p>Electricista Residencial</p>
+                  </div>
+                </div>
+                <div class="service-status status-rejected">Rechazado</div>
+              </div>
+              
+              <div class="service-details">
+                <h4>Instalación de ventilador de techo</h4>
+                <p>Profesional no disponible en la fecha solicitada.</p>
+              </div>
+              
+              <div class="service-meta">
+                <span><i class="fas fa-calendar"></i> 8 Mar 2024</span>
+                <span><i class="fas fa-dollar-sign"></i> $60 - $90</span>
+              </div>
+              
+              <div class="service-actions">
+                <button class="btn btn-outline" onclick="viewServiceDetails(4)">
+                  <i class="fas fa-eye"></i>
+                  Ver Detalles
+                </button>
+                <button class="btn" onclick="findSimilarProfessional(4)">
+                  <i class="fas fa-search"></i>
+                  Buscar Similar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Funcionalidad de pestañas
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const tabId = this.getAttribute('data-tab');
+      
+      // Remover clase active de todos los botones y paneles
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanes.forEach(p => p.classList.remove('active'));
+      
+      // Agregar clase active al botón y panel actual
+      this.classList.add('active');
+      document.getElementById(`${tabId}-tab`).classList.add('active');
+    });
+  });
+
+  // Funciones para gestionar servicios
+  function viewServiceDetails(serviceId) {
+    // Aquí iría la lógica para ver detalles del servicio
+    alert(`Mostrando detalles del servicio #${serviceId}`);
+    // En una implementación real, esto abriría un modal o redirigiría a una página de detalles
+  }
+
+  function cancelService(serviceId) {
+    if (confirm('¿Estás seguro de que quieres cancelar este servicio?')) {
+      // Aquí iría la lógica para cancelar el servicio
+      alert(`Servicio #${serviceId} cancelado`);
+      
+      // Actualizar la interfaz
+      const serviceCard = document.querySelector(`[onclick*="cancelService(${serviceId})"]`).closest('.service-card');
+      serviceCard.style.opacity = '0';
+      setTimeout(() => {
+        serviceCard.remove();
+        updateServiceCounts();
+      }, 300);
+    }
+  }
+
+  function contactProfessional(serviceId) {
+    // Aquí iría la lógica para contactar al profesional
+    alert(`Redirigiendo al chat con el profesional del servicio #${serviceId}`);
+  }
+
+  function rateService(serviceId) {
+    // Aquí iría la lógica para calificar el servicio
+    alert(`Abriendo formulario de calificación para el servicio #${serviceId}`);
+  }
+
+  function findSimilarProfessional(serviceId) {
+    // Aquí iría la lógica para buscar profesionales similares
+    alert(`Buscando profesionales similares para el servicio #${serviceId}`);
+    // En una implementación real, esto redirigiría a la página de búsqueda
+  }
+
+  function updateServiceCounts() {
+    // Actualizar contadores en las pestañas
+    const pendingCount = document.querySelectorAll('#pending-tab .service-card').length;
+    const acceptedCount = document.querySelectorAll('#accepted-tab .service-card').length;
+    
+    // Actualizar badges
+    const pendingBadge = document.querySelector('[data-tab="pending"] .tab-badge');
+    const acceptedBadge = document.querySelector('[data-tab="accepted"] .tab-badge');
+    
+    if (pendingBadge) pendingBadge.textContent = pendingCount;
+    if (acceptedBadge) acceptedBadge.textContent = acceptedCount;
+    
+    // Actualizar tarjetas de estadísticas
+    document.querySelector('.stat-card.pending .stat-value').textContent = pendingCount;
+    document.querySelector('.stat-card.accepted .stat-value').textContent = acceptedCount;
+  }
+</script>
+
+</body>
+</html>

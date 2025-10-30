@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cerrar Sesión | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Logout Container */
+    .logout-container {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .logout-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      color: white;
+      font-size: 2rem;
+    }
+
+    .logout-title {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .logout-message {
+      color: var(--text-light);
+      margin-bottom: 30px;
+      font-size: 1rem;
+    }
+
+    .user-info {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-align: left;
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--secondary);
+      flex-shrink: 0;
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-details h3 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .user-details p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    .logout-options {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: 2px solid #ef4444;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+      margin-top: 30px;
+    }
+
+    /* Modal de Confirmación */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: var(--radius);
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      background: #ef4444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    .modal-title {
+      color: var(--text);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+
+    .modal-message {
+      color: var(--text-light);
+      margin-bottom: 25px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 480px) {
+      .logout-container {
+        padding: 25px;
+      }
+      
+      .logout-title {
+        font-size: 1.5rem;
+      }
+      
+      .user-info {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .logout-options {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Logout Container -->
+<div class="logout-container">
+  <div class="logout-icon">
+    <i class="fas fa-sign-out-alt"></i>
+  </div>
+  
+  <h1 class="logout-title">Cerrar Sesión</h1>
+  
+  <p class="logout-message">
+    ¿Estás seguro de que deseas cerrar tu sesión? Podrás volver a iniciar sesión en cualquier momento.
+  </p>
+  
+  <div class="user-info">
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+    <div class="user-details">
+      <h3>Carlos González</h3>
+      <p>carlos@ejemplo.com</p>
+      <p>Miembro desde: Enero 2024</p>
+    </div>
+  </div>
+  
+  <div class="logout-options">
+    <button class="btn btn-danger" id="confirmLogout">
+      <i class="fas fa-sign-out-alt"></i>
+      Sí, Cerrar Sesión
+    </button>
+    
+    <a href="index.html" class="btn btn-outline">
+      <i class="fas fa-times"></i>
+      Cancelar
+    </a>
+  </div>
+  
+  <footer>
+    © 2025 Chambitas SV — Conectando talento y oportunidades.
+  </footer>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal-overlay" id="logoutModal">
+  <div class="modal">
+    <div class="modal-icon">
+      <i class="fas fa-check"></i>
+    </div>
+    
+    <h2 class="modal-title">Sesión Cerrada</h2>
+    
+    <p class="modal-message">
+      Has cerrado sesión exitosamente. ¡Esperamos verte pronto!
+    </p>
+    
+    <div class="modal-actions">
+      <a href="login.html" class="btn">
+        <i class="fas fa-sign-in-alt"></i>
+        Iniciar Sesión
+      </a>
+      
+      <a href="index.html" class="btn btn-outline">
+        <i class="fas fa-home"></i>
+        Ir al Inicio
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mostrar modal de confirmación
+  const confirmLogout = document.getElementById('confirmLogout');
+  const logoutModal = document.getElementById('logoutModal');
+  
+  confirmLogout.addEventListener('click', function() {
+    logoutModal.classList.add('active');
+    
+    // En una implementación real, aquí iría la lógica para cerrar sesión
+    // Por ejemplo: limpiar tokens, redirigir, etc.
+    setTimeout(() => {
+      // Simular redirección después de 3 segundos
+      // window.location.href = 'login.html';
+    }, 3000);
+  });
+  
+  // Cerrar modal al hacer clic fuera
+  logoutModal.addEventListener('click', function(e) {
+    if (e.target === logoutModal) {
+      logoutModal.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #06b6d4;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--text);
+    }
+
+    /* Left Section */
+    .left {
+      flex: 0.4;
+      background: linear-gradient(-45deg, var(--primary), var(--secondary), #1d4ed8, #0891b2);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .profile {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid rgba(255,255,255,0.8);
+      margin-bottom: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .profile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .left h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .left p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 300px;
+    }
+
+    /* Right Section */
+    .right {
+      flex: 0.6;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+    }
+
+    .form-container {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 50px 60px;
+      max-width: 500px;
+      width: 100%;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .form-container h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 6px rgba(37,99,235,0.3);
+      outline: none;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+
+    .google-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: white;
+      color: #444;
+      border: 1px solid #ddd;
+      margin-top: 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .google-btn:hover {
+      background: #f1f5f9;
+    }
+
+    .google-btn img {
+      width: 22px;
+      height: 22px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .login-link a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .login-link a:hover {
+      color: var(--secondary);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+        height: auto;
+      }
+      .left, .right {
+        width: 100%;
+        flex: none;
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="left">
+    <div class="profile">
+      <img src="img/logo.png" alt="Logo Chambitas SV">
+    </div>
+    <h2>Bienvenido a Chambitas SV</h2>
+    <p>Crea tu cuenta y comienza a conectar con oportunidades reales cerca de ti.</p>
+  </div>
+
+  <div class="right">
+    <div class="form-container">
+      <h1>Crear Cuenta</h1>
+      <form>
+        <div class="form-group">
+          <input type="text" placeholder="Nombre completo" required>
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Correo electrónico" required>
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Contraseña" required>
+        </div>
+
+        <button class="btn" type="submit">Registrarme</button>
+
+        <button class="btn google-btn" type="button">
+          <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google">
+          Registrarme con Google
+        </button>
+      </form>
+
+      <div class="login-link">
+        ¿Ya tienes una cuenta?
+        <a href="login.html">Inicia sesión aquí</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

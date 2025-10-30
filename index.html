@@ -1,208 +1,721 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chambitas sv</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta http-equiv="refresh" content="0; url=categoria.html">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chambitas SV - Rápido, Seguro y Confiable</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --light: #ffffff;
+      --bg: #f9fafc;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="shortcut icon" href="img/1.png">
-    <script src="https://unpkg.com/scrollreveal"></script>
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: var(--light);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      font-size: 1.8rem;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: var(--light);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+      text-align: left;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="white" points="0,1000 1000,0 1000,1000"/></svg>');
+      background-size: cover;
+    }
+    
+    .hero-content {
+      flex: 1 1 400px;
+      max-width: 480px;
+      animation: fadeInUp 1s ease;
+      z-index: 1;
+    }
+    
+    .hero-content h1 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .hero-content p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .hero img {
+      flex: 1 1 400px;
+      max-width: 500px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: float 4s ease-in-out infinite;
+      z-index: 1;
+    }
+    
+    @keyframes float {
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    /* Value Section */
+    .values {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 80px 60px;
+      background: #fff;
+      text-align: center;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 50px;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    .value-box {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 30px;
+      transition: transform .3s ease, box-shadow .3s ease;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .value-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .value-box:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .value-box img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 20px;
+    }
+    
+    .value-box h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+    
+    .value-box p {
+      color: var(--text-light);
+    }
+
+    /* How to use section */
+    .howto {
+      background: var(--light);
+      padding: 80px 60px;
+      text-align: center;
+    }
+    
+    .howto h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 40px;
+    }
+    
+    .howto-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .howto-box {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 40px 30px;
+      box-shadow: var(--shadow);
+      transition: transform .3s ease;
+      position: relative;
+    }
+    
+    .howto-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    
+    .howto-box:hover { 
+      transform: translateY(-8px); 
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .howto-box h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .howto-box img {
+      width: 90px;
+      margin-bottom: 20px;
+    }
+    
+    .howto-box ul {
+      list-style: none;
+      text-align: left;
+      margin-top: 10px;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    .howto-box ul li {
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+    
+    .howto-box ul li::before {
+      content: "✓ ";
+      color: var(--secondary);
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      padding: 80px 60px;
+      background: var(--bg);
+      text-align: center;
+    }
+    
+    .testimonial-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .testimonial-box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+      text-align: left;
+      position: relative;
+    }
+    
+    .testimonial-box::before {
+      content: '"';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 4rem;
+      color: var(--primary);
+      opacity: 0.2;
+      font-family: serif;
+    }
+    
+    .testimonial-content {
+      margin-bottom: 20px;
+      font-style: italic;
+      color: var(--text-light);
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .testimonial-author img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    
+    .author-info p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      text-align: center;
+      padding: 90px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.05"><polygon fill="white" points="0,0 1000,1000 0,1000"/></svg>');
+      background-size: cover;
+    }
+    
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .cta h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+    
+    .cta p {
+      font-size: 1.1rem;
+      opacity: .9;
+      margin-bottom: 30px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      padding: 60px 20px 20px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+    
+    .footer-column h3 {
+      color: var(--light);
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    
+    .footer-column ul {
+      list-style: none;
+    }
+    
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-column a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-column a:hover {
+      color: var(--secondary);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero { 
+        padding: 60px 20px; 
+        text-align: center; 
+      }
+      
+      header { 
+        padding: 15px 20px; 
+      }
+      
+      .values, .howto, .testimonials {
+        padding: 60px 20px;
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-<a href="#" class="logo">
-  <img src="img/Chambita sv (5).png" alt="car logo">
-</a>
 
-        <i class='bx bx-menu' id="menu-icon"></i>
+<header>
+  <div class="logo">
+    <i class="fas fa-hands-helping"></i>
+    <span>Chambitas SV</span>
+  </div>
+  <button class="btn" onclick="scrollToSection('cta')">
+    <i class="fas fa-user-plus"></i>
+    Regístrate
+  </button>
+</header>
 
-        <ul class="navbar">
-            <li><a href="#home">Inicio</a></li>
-          <li><a href="categoria.html">Categorías</a></li>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Tu conexión directa con el talento local</h1>
+    <p>En Chambitas SV, encuentras profesionales de confianza en segundos. Rápido, seguro y confiable: conecta, contrata y trabaja sin complicaciones.</p>
+    <div class="hero-buttons">
+      <button class="btn" onclick="scrollToSection('cta')">
+        <i class="fas fa-play-circle"></i>
+        Comienza ahora
+      </button>
+      <button class="btn btn-outline" onclick="scrollToSection('howto')">
+        <i class="fas fa-info-circle"></i>
+        Más información
+      </button>
+    </div>
+  </div>
+  <img src="img/2.jpg" alt="Personas colaborando">
+</section>
 
-        </ul>
+<section class="values">
+  <h2 class="section-title">¿Por qué elegir Chambitas SV?</h2>
+  <div class="value-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/9846/9846823.png" alt="Velocidad">
+    <h3>Rápido</h3>
+    <p>Encuentra o publica servicios en minutos. Nuestra plataforma te conecta al instante con quien necesitas.</p>
+  </div>
+  <div class="value-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/2107/2107957.png" alt="Seguridad">
+    <h3>Seguro</h3>
+    <p>Perfiles verificados, reseñas reales y comunicación directa para mayor confianza entre usuarios.</p>
+  </div>
+  <div class="value-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/991/991947.png" alt="Confianza">
+    <h3>Confiable</h3>
+    <p>Transacciones transparentes y seguimiento de cada servicio. Trabaja con tranquilidad y respaldo.</p>
+  </div>
+</section>
 
-        <div class="header-btn">
-            <a href="#" class="sign-up">Registrarse</a>
-            <a href="#" class="sign-in">Iniciar sesión</a>
-        </div>
-    </header>
-
-    <section class="home" id="home">
-        <div class="text">
-            <h1><span>Looking</span> to <br>rent a car</h1>
-            <p>Where Will the Road Take You? Rent a Car and Find Out!</p>
-
-        </div>
-    </section>
-
-
-    <section class="services" id="services">
-        <div class="heading">
-            <span>Servicios</span>
-            <h1>Que servicio Necesitas </h1>
-        </div>
-        <div class="services-container">
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/T31DwXXs/car1.jpg" alt="car image"></div>
-                <h3>Honda Civic Type R</h3>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/QdvHd9mB/car2.jpg" alt="car image"></div>
-                <p>electricista</p>
-                <h3>Honda Civic</h3>
-                <h2>$28,450 | $171 <span>/month</span></h2>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/s2S1QjHT/car3.jpg" alt="car image"></div>
-                <p>2025</p>
-                <h3>Honda Civic Si</h3>
-                <h2>$29,000 | $174 <span>/month</span></h2>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/rsYqZ3Yd/car4.jpg" alt="car image"></div>
-                <p>2023</p>
-                <h3>Honda Civic Type R</h3>
-                <h2>$43,000 | $258 <span>/month</span></h2>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/jqnj5QCR/car5.jpg" alt="car image"></div>
-                <p>2023</p>
-                <h3>Honda Civic Type R</h3>
-                <h2>$43,000 | $258 <span>/month</span></h2>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-
-            <div class="box">
-                <div class="box-img"><img src="https://i.postimg.cc/DZSFDFRq/car6.jpg" alt="car image"></div>
-                <p>2025</p>
-                <h3>Porsche Cayman GT4</h3>
-                <h2>$100,000 | $600 <span>/month</span></h2>
-                <a href="#" class="btn">Rent Now</a>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="ride" id="ride">
-        <div class="heading">
-            <span>How it's works</span>
-            <h1>Rent with 3 easy steps</h1>
-        </div>
-        <div class="ride-container">
-            <div class="box">
-                <i class="ri-map-2-line"></i>
-                <h2>Choose a Location</h2>
-                <p>Browse our wide selection of vehicles according to location</p>
-            </div>
-
-            <div class="box">
-                <i class="ri-calendar-line"></i>
-                <h2>Choose a date</h2>
-                <p>Choose a date that fits your needs and budget</p>
-            </div>
-
-            <div class="box">
-                <i class="ri-bookmark-line"></i>
-                <h2>Book a car</h2>
-                <p>Enter your details for a quick and secure booking</p>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="about" id="about">
-        <div class="heading">
-            <span>About Us</span>
-            <h1>Best Customer Experience</h1>
-        </div>
-        <div class="about-container">
-            <div class="about-img"><img src="https://i.postimg.cc/KjtmmbFC/about.png" alt="about banner"></div>
-            <div class="about-text">
-                <span>About us</span>
-                <p>We're passionate about providing you with the perfect vehicle for your needs. Whether you're looking for a short-term rental or a long-term purchase, we offer a diverse selection of cars to suit every taste and budget</p>
-                <p>Our commitment to excellence begins with our extensive inventory, carefully curated to include a wide range of makes, models, and years. We pride ourselves on maintaining a high standard of vehicle quality, ensuring each car undergoes a rigorous inspection process before being offered for sale or rent</p>
-                <a href="#" class="btn">Learn More</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="reviews" id="reviews">
-        <div class="heading">
-            <span>Reviews</span>
-            <h1>What our Customers Say</h1>
-        </div>
-        <div class="reviews-container">
-            <div class="box">
-                <div class="rev-img"><img src="https://i.postimg.cc/fWCHgFxb/rev1.jpg" alt="review image"></div>
-                <h2>Alan Doe</h2>
-                <div class="stars">
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-half-fill"></i>
-                </div>
-                <p>I was impressed with the condition of the vehicle I rented. It was clean, well-maintained, and drove perfectly. It made my road trip so much more enjoyable knowing I was driving a reliable and comfortable car. Highly recommend!</p>
-            </div>
-
-            <div class="box">
-                <div class="rev-img"><img src="https://i.postimg.cc/YSxgCc2G/rev2.jpg" alt="review image"></div>
-                <h2>John Ford</h2>
-                <div class="stars">
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                </div>
-                <p>I needed a car for a week, and here I offered the best value for my money. Their prices were competitive, and the overall experience was worth every penny. I wouldn't hesitate to rent from them again!</p>
-            </div>
-
-            <div class="box">
-                <div class="rev-img"><img src="https://i.postimg.cc/Qtx7B6V6/rev3.jpg" alt="review image"></div>
-                <h2>Katharina Moss</h2>
-                <div class="stars">
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                    <i class="ri-star-fill"></i>
-                </div>
-                <p> The online booking process was easy, the car was ready on time, and the return was just as straightforward. No hidden fees, no hassle - just a great experience from start to finish. I'll definitely be using them again!</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="newsletter">
-        <h2>Subscribe to Newsletter</h2>
-        <div class="box">
-            <input type="text" placeholder="Enter your email">
-            <a href="#" class="btn">Subscribe</a>
-        </div>
-    </section>
-    <div class="copyright">
-        <p>&#169; <span>ULTRA CODE</span> All rights reserved</p>
-        <div class="social">
-            <a href="#"><i class="ri-facebook-fill"></i></a>
-            <a href="#"><i class="ri-twitter-x-line"></i></a>
-            <a href="#"><i class="ri-instagram-line"></i></a>
-        </div>
+<!-- NUEVA SECCIÓN: CÓMO UTILIZAR CHAMBITAS SV -->
+<section class="howto" id="howto">
+  <h2 class="section-title">¿Cómo utilizar Chambitas SV?</h2>
+  <div class="howto-container">
+    <div class="howto-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/1141/1141771.png" alt="Usuarios">
+      <h3><i class="fas fa-users"></i> Para Usuarios</h3>
+      <ul>
+        <li>Regístrate gratis y crea tu cuenta.</li>
+        <li>Busca el servicio que necesitas por zona o categoría.</li>
+        <li>Compara perfiles y elige al profesional ideal.</li>
+        <li>Comunícate directamente por chat y acuerda los detalles.</li>
+        <li>Evalúa el servicio y ayuda a otros usuarios.</li>
+      </ul>
     </div>
 
-    <script src="main.js"></script>
+    <div class="howto-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profesionales">
+      <h3><i class="fas fa-user-tie"></i> Para Profesionales</h3>
+      <ul>
+        <li>Crea tu perfil profesional en pocos pasos.</li>
+        <li>Agrega tus habilidades, fotos y experiencia.</li>
+        <li>Recibe notificaciones de trabajos disponibles.</li>
+        <li>Acepta o rechaza las ofertas según tu disponibilidad.</li>
+        <li>Gana visibilidad y aumenta tus ingresos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVA SECCIÓN: TESTIMONIOS -->
+<section class="testimonials">
+  <h2 class="section-title">Lo que dicen nuestros usuarios</h2>
+  <div class="testimonial-container">
+    <div class="testimonial-box">
+      <div class="testimonial-content">
+        Encontré a un electricista confiable en menos de 10 minutos. El servicio fue excelente y el precio justo. ¡Recomiendo totalmente Chambitas SV!
+      </div>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Usuario">
+        <div class="author-info">
+          <h4>María González</h4>
+          <p>San Salvador</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonial-box">
+      <div class="testimonial-content">
+        Como carpintero, he conseguido más trabajos en un mes que en todo el año anterior. La plataforma es fácil de usar y los clientes son serios.
+      </div>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Usuario">
+        <div class="author-info">
+          <h4>Carlos Rodríguez</h4>
+          <p>Profesional verificado</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonial-box">
+      <div class="testimonial-content">
+        Necesitaba urgentemente un plomero en domingo y en menos de media hora ya tenía a alguien resolviendo el problema. ¡Increíble servicio!
+      </div>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/women/67.jpg" alt="Usuario">
+        <div class="author-info">
+          <h4>Ana Martínez</h4>
+          <p>Santa Ana</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="cta">
+  <div class="cta-content">
+    <h2>Únete hoy a Chambitas SV</h2>
+    <p>Forma parte de una red que impulsa el talento salvadoreño. ¡Regístrate gratis y encuentra nuevas oportunidades!</p>
+    <button class="btn">
+      <i class="fas fa-rocket"></i>
+      Registrarme gratis
+    </button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Chambitas SV</h3>
+      <p>Conectando talento y oportunidades en El Salvador.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Enlaces rápidos</h3>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#howto">Cómo funciona</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Política de cookies</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Contacto</h3>
+      <ul>
+        <li><i class="fas fa-envelope"></i> info@chambitassv.com</li>
+        <li><i class="fas fa-phone"></i> +503 1234-5678</li>
+        <li><i class="fas fa-map-marker-alt"></i> San Salvador, El Salvador</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="copyright">
+    © 2025 Chambitas SV — Conectando talento y oportunidades.
+  </div>
+</footer>
+
+<script>
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+
+  
+  // Efecto de header al hacer scroll
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) {
+      header.style.padding = '10px 60px';
+      header.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+    } else {
+      header.style.padding = '20px 60px';
+      header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+    }
+  });
+</script>
+
 </body>
 </html>

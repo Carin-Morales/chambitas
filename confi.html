@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .breadcrumb i {
+      font-size: 0.8rem;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Settings Layout */
+    .settings-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 25px;
+    }
+
+    /* Settings Sidebar */
+    .settings-sidebar {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+    }
+
+    .settings-nav {
+      list-style: none;
+    }
+
+    .settings-nav li {
+      margin-bottom: 5px;
+    }
+
+    .settings-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .settings-nav a:hover, .settings-nav a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .settings-nav i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Settings Content */
+    .settings-content {
+      background: var(--light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-bottom: 25px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    /* Profile Settings */
+    .profile-settings {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .profile-avatar {
+      text-align: center;
+    }
+
+    .avatar-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--secondary);
+      margin-bottom: 15px;
+    }
+
+    .avatar-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .change-avatar-btn {
+      background: var(--bg);
+      border: 2px solid #e2e8f0;
+      color: var(--text);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .change-avatar-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .profile-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Security Settings */
+    .security-settings {
+      margin-bottom: 30px;
+    }
+
+    .security-item {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .security-info h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .security-info p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Notification Settings */
+    .notification-settings {
+      margin-bottom: 30px;
+    }
+
+    .notification-item {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: var(--radius);
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .notification-info h4 {
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .notification-info p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      border: 2px solid #ef4444;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+      margin-top: 25px;
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+      
+      .settings-container {
+        grid-template-columns: 200px 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .page-header {
+        padding: 20px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .settings-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .settings-sidebar {
+        order: 2;
+      }
+      
+      .settings-content {
+        order: 1;
+      }
+      
+      .profile-settings {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .profile-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 18px;
+      }
+      
+      .page-header h1 {
+        font-size: 1.3rem;
+      }
+      
+      .settings-content {
+        padding: 20px;
+      }
+      
+      .security-item, .notification-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="fas fa-hands-helping"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+    <li><a href="inicio.html" ><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html"><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html" ><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html" ><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html" ><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+      <li><a href="historial.html" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html" class="active"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar en configuraciones...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="breadcrumb">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Configuración</span>
+      </div>
+      <h1>
+        <i class="fas fa-cog"></i>
+        Configuración
+      </h1>
+    </section>
+
+    <!-- Settings Container -->
+    <div class="settings-container">
+      <!-- Settings Sidebar -->
+      <div class="settings-sidebar">
+        <ul class="settings-nav">
+          <li><a href="#perfil" class="active"><i class="fas fa-user"></i> Perfil</a></li>
+          <li><a href="#seguridad"><i class="fas fa-shield-alt"></i> Seguridad</a></li>
+          <li><a href="#notificaciones"><i class="fas fa-bell"></i> Notificaciones</a></li>
+          <li><a href="#privacidad"><i class="fas fa-lock"></i> Privacidad</a></li>
+          <li><a href="#cuenta"><i class="fas fa-credit-card"></i> Cuenta</a></li>
+          <li><a href="#preferencias"><i class="fas fa-palette"></i> Preferencias</a></li>
+        </ul>
+      </div>
+
+      <!-- Settings Content -->
+      <div class="settings-content">
+        <!-- Profile Settings -->
+        <div id="perfil">
+          <h2 class="section-title"><i class="fas fa-user"></i> Perfil de Usuario</h2>
+          
+          <div class="profile-settings">
+            <div class="profile-avatar">
+              <div class="avatar-image">
+                <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+              </div>
+              <button class="change-avatar-btn">
+                <i class="fas fa-camera"></i>
+                Cambiar foto
+              </button>
+            </div>
+            
+            <div class="profile-form">
+              <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" id="firstName" class="form-control" value="Carlos" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" id="lastName" class="form-control" value="González" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" class="form-control" value="carlos@ejemplo.com" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" class="form-control" value="+503 1234-5678" required>
+              </div>
+              
+              <div class="form-group full-width">
+                <label for="bio">Biografía</label>
+                <textarea id="bio" class="form-control" placeholder="Cuéntanos sobre ti...">Soy un usuario de Chambitas SV interesado en encontrar los mejores profesionales para mis proyectos.</textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="location">Ubicación</label>
+                <input type="text" id="location" class="form-control" value="San Salvador, El Salvador" required>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn">
+              <i class="fas fa-save"></i>
+              Guardar Cambios
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-times"></i>
+              Cancelar
+            </button>
+          </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div id="seguridad" style="display: none;">
+          <h2 class="section-title"><i class="fas fa-shield-alt"></i> Seguridad</h2>
+          
+          <div class="security-settings">
+            <div class="security-item">
+              <div class="security-info">
+                <h4>Cambiar Contraseña</h4>
+                <p>Actualiza tu contraseña regularmente para mantener tu cuenta segura</p>
+              </div>
+              <button class="btn btn-outline">
+                <i class="fas fa-edit"></i>
+                Cambiar
+              </button>
+            </div>
+            
+            <div class="security-item">
+              <div class="security-info">
+                <h4>Verificación en Dos Pasos</h4>
+                <p>Añade una capa extra de seguridad a tu cuenta</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="security-item">
+              <div class="security-info">
+                <h4>Sesiones Activas</h4>
+                <p>Revisa y gestiona tus sesiones activas</p>
+              </div>
+              <button class="btn btn-outline">
+                <i class="fas fa-eye"></i>
+                Ver
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div id="notificaciones" style="display: none;">
+          <h2 class="section-title"><i class="fas fa-bell"></i> Notificaciones</h2>
+          
+          <div class="notification-settings">
+            <div class="notification-item">
+              <div class="notification-info">
+                <h4>Notificaciones por Email</h4>
+                <p>Recibe notificaciones importantes por correo electrónico</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="notification-item">
+              <div class="notification-info">
+                <h4>Notificaciones Push</h4>
+                <p>Recibe notificaciones en tiempo real en tu dispositivo</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="notification-item">
+              <div class="notification-info">
+                <h4>Notificaciones de Mensajes</h4>
+                <p>Alertas cuando recibas nuevos mensajes</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+            
+            <div class="notification-item">
+              <div class="notification-info">
+                <h4>Notificaciones de Reservas</h4>
+                <p>Actualizaciones sobre tus reservas y citas</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+
+  // Navegación entre secciones de configuración
+  const settingsNavLinks = document.querySelectorAll('.settings-nav a');
+  const settingsSections = document.querySelectorAll('.settings-content > div');
+  
+  settingsNavLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Remover clase active de todos los enlaces
+      settingsNavLinks.forEach(l => l.classList.remove('active'));
+      // Agregar clase active al enlace clickeado
+      this.classList.add('active');
+      
+      // Ocultar todas las secciones
+      settingsSections.forEach(section => {
+        section.style.display = 'none';
+      });
+      
+      // Mostrar la sección correspondiente
+      const targetId = this.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.style.display = 'block';
+      }
+    });
+  });
+
+  // Cambiar avatar
+  const changeAvatarBtn = document.querySelector('.change-avatar-btn');
+  changeAvatarBtn.addEventListener('click', function() {
+    // En una implementación real, aquí se abriría un selector de archivos
+    const newAvatarUrl = prompt('Ingresa la URL de tu nueva foto de perfil:');
+    if (newAvatarUrl) {
+      const avatarImage = document.querySelector('.avatar-image img');
+      avatarImage.src = newAvatarUrl;
+    }
+  });
+
+  // Guardar cambios del perfil
+  const saveBtn = document.querySelector('.btn');
+  saveBtn.addEventListener('click', function() {
+    // Aquí iría la lógica para guardar los cambios
+    alert('¡Cambios guardados exitosamente!');
+  });
+</script>
+
+</body>
+</html>

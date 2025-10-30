@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio | Chambitas SV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --secondary-dark: #0891b2;
+      --bg: #f9fafc;
+      --light: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --radius: 16px;
+      --shadow: 0 5px 15px rgba(0,0,0,0.05);
+      --shadow-hover: 0 8px 25px rgba(37,99,235,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Layout Principal */
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header Mobile */
+    .mobile-header {
+      display: none;
+      background: var(--light);
+      padding: 15px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: var(--light);
+      box-shadow: var(--shadow);
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 90;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background: rgba(37, 99, 235, 0.05);
+      color: var(--primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-menu i {
+      width: 20px;
+      text-align: center;
+    }
+
+    /* Overlay para móvil */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 85;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--light);
+      padding: 15px 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 15px;
+      border-radius: 30px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    .search-bar input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(37,99,235,0.3);
+    }
+
+    .search-bar i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-menu i {
+      font-size: 1.3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .user-menu i:hover {
+      color: var(--primary);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--secondary);
+    }
+
+    .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Welcome Banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px;
+      border-radius: var(--radius);
+      margin-bottom: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><polygon fill="white" points="0,0 100,100 0,100"/></svg>');
+      background-size: cover;
+    }
+
+    .welcome-banner h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .welcome-banner p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    /* Categories */
+    .categories {
+      background: #fff;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 1.3rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 15px;
+    }
+
+    .category-box {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 18px 12px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .category-box:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .category-box i {
+      font-size: 1.8rem;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .category-box h3 {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* Professionals */
+    .professionals {
+      background: #fff;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+    }
+
+    .profiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .profile-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+      text-align: center;
+      position: relative;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .profile-card img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+      border: 3px solid var(--secondary);
+    }
+
+    .profile-card h4 {
+      color: var(--primary);
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .profile-card p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .stars {
+      color: #fbbf24;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+    }
+
+    .profile-card .btn {
+      padding: 7px 12px;
+      font-size: 0.75rem;
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Services */
+    .services {
+      background: #fff;
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 25px;
+    }
+
+    .service-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .service-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .service-card i {
+      font-size: 1.6rem;
+      color: var(--secondary);
+      margin-bottom: 12px;
+    }
+
+    .service-card h4 {
+      color: var(--primary);
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .service-card p {
+      color: var(--text-light);
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    .service-card .btn {
+      padding: 7px 12px;
+      font-size: 0.75rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: var(--light);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      border-radius: var(--radius);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    
+    /* Tablets */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 70px;
+        overflow: visible;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 15px;
+      }
+      
+      .sidebar-menu i {
+        font-size: 1.2rem;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+    }
+
+    /* Teléfonos grandes y tablets pequeñas */
+    @media (max-width: 768px) {
+      .mobile-header {
+        display: flex;
+      }
+      
+      .sidebar {
+        width: 280px;
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      
+      .sidebar-overlay.active {
+        display: block;
+      }
+      
+      .sidebar-header .logo span,
+      .sidebar-menu a span {
+        display: inline;
+      }
+      
+      .sidebar-menu a {
+        justify-content: flex-start;
+        padding: 12px 20px;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .search-bar {
+        max-width: 100%;
+        width: 100%;
+      }
+      
+      .user-menu {
+        justify-content: center;
+      }
+      
+      .category-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+      }
+      
+      .profiles, .service-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .section-header .btn {
+        align-self: stretch;
+        justify-content: center;
+      }
+    }
+
+    /* Teléfonos pequeños */
+    @media (max-width: 480px) {
+      .welcome-banner {
+        padding: 20px;
+      }
+      
+      .welcome-banner h1 {
+        font-size: 1.3rem;
+      }
+      
+      .welcome-banner p {
+        font-size: 0.9rem;
+      }
+      
+      .categories, .professionals, .services {
+        padding: 15px;
+      }
+      
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .category-box {
+        padding: 15px 10px;
+      }
+      
+      .category-box i {
+        font-size: 1.6rem;
+      }
+      
+      .category-box h3 {
+        font-size: 0.85rem;
+      }
+      
+      .profile-card, .service-card {
+        padding: 15px;
+      }
+      
+      .profile-card img {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .btn {
+        padding: 9px 16px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Teléfonos muy pequeños */
+    @media (max-width: 360px) {
+      .main-content {
+        padding: 10px;
+      }
+      
+      .category-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      
+      .category-box {
+        padding: 12px 8px;
+      }
+      
+      .category-box i {
+        font-size: 1.4rem;
+      }
+      
+      .category-box h3 {
+        font-size: 0.8rem;
+      }
+      
+      .profile-card img {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .profile-card h4 {
+        font-size: 0.9rem;
+      }
+      
+      .service-card h4 {
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Estilos de Chambot */
+  .chambot-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+  }
+
+  /* Botón flotante */
+  .chambot-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .chambot-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+  }
+
+  .chambot-btn::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 3px solid white;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Chat Container */
+  .chambot-chat {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+  }
+
+  .chambot-chat.active {
+    display: flex;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Header del Chat */
+  .chat-header {
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .chat-title i {
+    font-size: 1.2rem;
+  }
+
+  .chat-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background 0.3s ease;
+  }
+
+  .chat-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Mensajes del Chat */
+  .chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f8fafc;
+  }
+
+  .message {
+    display: flex;
+    gap: 10px;
+    max-width: 85%;
+  }
+
+  .bot-message {
+    align-self: flex-start;
+  }
+
+  .user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .bot-message .message-avatar {
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    color: white;
+  }
+
+  .user-message .message-avatar {
+    background: #e2e8f0;
+    color: #64748b;
+  }
+
+  .message-content {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 18px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .bot-message .message-content {
+    border-bottom-left-radius: 5px;
+  }
+
+  .user-message .message-content {
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    color: white;
+    border-bottom-right-radius: 5px;
+  }
+
+  .message-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* Opciones Rápidas */
+  .quick-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .quick-option {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    color: #475569;
+  }
+
+  .quick-option:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .quick-option i {
+    font-size: 1rem;
+  }
+
+  /* Input del Chat */
+  .chat-input-container {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    gap: 10px;
+  }
+
+  .chat-input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .chat-input:focus {
+    border-color: #2563eb;
+  }
+
+  .send-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .send-btn:hover {
+    transform: scale(1.05);
+  }
+
+  /* Guías con Imágenes */
+  .guide-container {
+    margin-top: 10px;
+  }
+
+  .guide-step {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 10px;
+  }
+
+  .guide-step h4 {
+    margin: 0 0 8px 0;
+    color: #2563eb;
+    font-size: 0.9rem;
+  }
+
+  .guide-image {
+    width: 100%;
+    height: 120px;
+    background: #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 0.8rem;
+    margin-bottom: 8px;
+  }
+
+  .guide-image i {
+    font-size: 2rem;
+  }
+
+  .guide-description {
+    font-size: 0.8rem;
+    color: #64748b;
+    line-height: 1.4;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .chambot-container {
+      bottom: 20px;
+      right: 20px;
+    }
+
+    .chambot-chat {
+      width: 300px;
+      height: 450px;
+      right: -50px;
+    }
+
+    .quick-options {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Scrollbar personalizado */
+  .chat-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-messages::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header Mobile -->
+  <header class="mobile-header">
+    <button class="mobile-menu-btn" id="menuToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <i class="img/logo.png"></i> 
+      <span>Chambitas SV</span>
+    </div>
+    <div class="user-avatar">
+      <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+    </div>
+  </header>
+
+  <!-- Overlay para móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-hands-helping"></i> 
+        <span>Chambitas SV</span>
+      </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+      <li><a href="inicio.html" class="active"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li><a href="crear-perfil.html" ><i class="fas fa-user-plus"></i> <span>Crear Perfil Profesional</span></a></li>
+      <li><a href="categoria.html"><i class="fas fa-th-large"></i> <span>Todas las Categorías</span></a></li>
+      <li><a href="favoritos.html"><i class="fas fa-heart"></i> <span>Favoritos</span></a></li>
+      <li><a href="mensajes.html"><i class="fas fa-comments"></i> <span>Mensajes</span></a></li>
+       <li><a href="historial.html" ><i class="fas fa-history"></i> <span>Mis Servicios</span></a></li>
+      <li><a href="confi.html"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
+      <li><a href="panel.html" ><i class="fas fa-tachometer-alt"></i> <span>Panel Profesional</span></a></li>
+      <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> <span>Ayuda</span></a></li>
+
+      <li><a href="exit.html"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar servicios o profesionales...">
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="user-menu">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-envelope"></i>
+        <div class="user-avatar">
+          <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Usuario">
+        </div>
+      </div>
+    </div>
+
+    <!-- Welcome Banner -->
+    <section class="welcome-banner">
+      <h1>¡Hola, Carlos!</h1>
+      <p>Encuentra los mejores profesionales cerca de ti. Conecta rápido, seguro y sin complicaciones.</p>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+      <div class="section-header">
+        <h2 class="section-title">Categorías destacadas</h2>
+        <a href="categoria.html" class="btn btn-outline">
+          <i class="fas fa-th-list"></i>
+          Ver todas las categorías
+        </a>
+      </div>
+      <div class="category-grid">
+        <div class="category-box">
+          <i class="fas fa-bolt"></i>
+          <h3>Electricistas</h3>
+        </div>
+        <div class="category-box">
+          <i class="fas fa-water"></i>
+          <h3>Plomeros</h3>
+        </div>
+        <div class="category-box">
+          <i class="fas fa-paint-roller"></i>
+          <h3>Pintores</h3>
+        </div>
+       
+        <div class="category-box">
+          <i class="fas fa-broom"></i>
+          <h3>Limpieza</h3>
+        </div>
+        <div class="category-box">
+          <i class="fas fa-cut"></i>
+          <h3>Belleza</h3>
+        </div>
+        <div class="category-box">
+          <i class="fas fa-tools"></i>
+          <h3>Reparaciones</h3>
+        </div>
+        <div class="category-box">
+          <i class="fas fa-truck-moving"></i>
+          <h3>Mudanzas</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Professionals Section -->
+    <section class="professionals">
+      <div class="section-header">
+        <h2 class="section-title">Profesionales recomendados</h2>
+        <a href="#" class="btn btn-outline">
+          <i class="fas fa-users"></i>
+          Ver todos
+        </a>
+      </div>
+      <div class="profiles">
+        <div class="profile-card">
+          <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Carlos">
+          <h4>Carlos Rodríguez</h4>
+          <p>Electricista - Usulután, 
+            Santiago de Maria</p>
+          <div class="stars">★★★★★ <span>(24)</span></div>
+          <button class="btn">Contactar</button>
+        </div>
+        <div class="profile-card">
+          <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Ana">
+          <h4>Ana López</h4>
+          <p>Diseñadora - Usulután, Ozatlan</p>
+          <div class="stars">★★★★☆ <span>(18)</span></div>
+          <button class="btn">Contactar</button>
+        </div>
+        <div class="profile-card">
+          <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="José">
+          <h4>José Martínez</h4>
+          <p>Plomero - Usulután, Santa Elena</p>
+          <div class="stars">★★★★★ <span>(32)</span></div>
+          <button class="btn">Contactar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+      <div class="section-header">
+        <h2 class="section-title">Servicios populares</h2>
+        <a href="#" class="btn btn-outline">
+          <i class="fas fa-list"></i>
+          Explorar más
+        </a>
+      </div>
+      <div class="service-list">
+        <div class="service-card">
+          <i class="fas fa-tools"></i>
+          <h4>Reparaciones domésticas</h4>
+          <p>Encuentra expertos para arreglar fugas, instalaciones y más.</p>
+          <button class="btn">Ver servicios</button>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-laptop"></i>
+          <h4>Soporte técnico</h4>
+          <p>Profesionales en mantenimiento y reparación de computadoras.</p>
+          <button class="btn">Ver servicios</button>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-brush"></i>
+          <h4>Pintura y remodelación</h4>
+          <p>Transforma tus espacios con los mejores pintores y decoradores.</p>
+          <button class="btn">Ver servicios</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 Chambitas SV — Conectando talento y oportunidades.
+    </footer>
+  </main>
+</div>
+<div class="chambot-container" id="chambotContainer">
+  <!-- Botón flotante -->
+  <button class="chambot-btn" id="chambotBtn">
+    <i class="fas fa-robot"></i>
+  </button>
+  
+  <!-- Chat Container -->
+  <div class="chambot-chat" id="chambotChat">
+    <!-- Header del Chat -->
+    <div class="chat-header">
+      <div class="chat-title">
+        <i class="fas fa-robot"></i>
+        <span>Chambot - Asistente</span>
+      </div>
+      <button class="chat-close" id="chatClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <!-- Mensajes del Chat -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">
+        <div class="message-avatar">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+          <p>¡Hola! Soy Chambot, tu asistente virtual. ¿En qué puedo ayudarte hoy?</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Opciones Rápidas -->
+    <div class="quick-options">
+      <button class="quick-option" data-option="registro">
+        <i class="fas fa-user-plus"></i>
+        Cómo registrarme
+      </button>
+      <button class="quick-option" data-option="buscar">
+        <i class="fas fa-search"></i>
+        Buscar profesionales
+      </button>
+      <button class="quick-option" data-option="contratar">
+        <i class="fas fa-handshake"></i>
+        Contratar servicios
+      </button>
+      <button class="quick-option" data-option="pagos">
+        <i class="fas fa-credit-card"></i>
+        Métodos de pago
+      </button>
+    </div>
+    
+    <!-- Input del Usuario -->
+    <div class="chat-input-container">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta...">
+      <button class="send-btn" id="sendBtn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  // Funcionalidad del menú móvil
+  const menuToggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+  });
+  
+  // Cerrar menú al hacer clic en un enlace (en móviles)
+  const menuLinks = document.querySelectorAll('.sidebar-menu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+      }
+    });
+  });
+</script>
+<script>
+  // Script de Chambot
+  document.addEventListener('DOMContentLoaded', function() {
+    const chambotBtn = document.getElementById('chambotBtn');
+    const chambotChat = document.getElementById('chambotChat');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const quickOptions = document.querySelectorAll('.quick-option');
+
+    // Abrir/cerrar chat
+    chambotBtn.addEventListener('click', function() {
+      chambotChat.classList.toggle('active');
+    });
+
+    chatClose.addEventListener('click', function() {
+      chambotChat.classList.remove('active');
+    });
+
+    // Enviar mensaje
+    function sendMessage() {
+      const message = chatInput.value.trim();
+      if (message) {
+        addMessage(message, 'user');
+        chatInput.value = '';
+        
+        // Simular respuesta del bot
+        setTimeout(() => {
+          const response = getBotResponse(message);
+          addMessage(response, 'bot');
+        }, 1000);
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    // Opciones rápidas
+    quickOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const optionType = this.getAttribute('data-option');
+        handleQuickOption(optionType);
+      });
+    });
+
+    // Agregar mensaje al chat
+    function addMessage(content, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}-message`;
+      
+      const avatarDiv = document.createElement('div');
+      avatarDiv.className = 'message-avatar';
+      avatarDiv.innerHTML = sender === 'bot' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      
+      const messageText = document.createElement('p');
+      messageText.textContent = content;
+      
+      contentDiv.appendChild(messageText);
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(contentDiv);
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Respuestas del bot
+    function getBotResponse(message) {
+      const lowerMessage = message.toLowerCase();
+      
+      if (lowerMessage.includes('hola') || lowerMessage.includes('hi') || lowerMessage.includes('buenas')) {
+        return '¡Hola! Soy Chambot, tu asistente virtual. ¿En qué puedo ayudarte hoy?';
+      } else if (lowerMessage.includes('registr') || lowerMessage.includes('cuenta')) {
+        return 'Te explico cómo registrarte en Chambitas SV...';
+      } else if (lowerMessage.includes('buscar') || lowerMessage.includes('encontrar')) {
+        return 'Puedo ayudarte a buscar profesionales. ¿Qué tipo de servicio necesitas?';
+      } else if (lowerMessage.includes('pago') || lowerMessage.includes('tarjeta') || lowerMessage.includes('precio')) {
+        return 'Te explico los métodos de pago disponibles...';
+      } else if (lowerMessage.includes('gracias') || lowerMessage.includes('thanks')) {
+        return '¡De nada! ¿Hay algo más en lo que pueda ayudarte?';
+      } else {
+        return 'Entiendo que necesitas ayuda. Puedo explicarte cómo registrarte, buscar profesionales, contratar servicios o métodos de pago. ¿Qué te gustaría saber?';
+      }
+    }
+
+    // Manejar opciones rápidas
+    function handleQuickOption(optionType) {
+      let response = '';
+      let guideHTML = '';
+
+      switch(optionType) {
+        case 'registro':
+          response = 'Te guío paso a paso para registrarte en Chambitas SV:';
+          guideHTML = `
+            <div class="guide-container">
+              <div class="guide-step">
+                <h4>Paso 1: Accede al registro</h4>
+                <div class="guide-image">
+                  <i class="fas fa-user-plus"></i>
+                </div>
+                <p class="guide-description">Haz clic en "Registrarse" en la página principal</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 2: Completa tus datos</h4>
+                <div class="guide-image">
+                  <i class="fas fa-edit"></i>
+                </div>
+                <p class="guide-description">Llena el formulario con tu información personal</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 3: Verifica tu cuenta</h4>
+                <div class="guide-image">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <p class="guide-description">Revisa tu email y haz clic en el enlace de verificación</p>
+              </div>
+            </div>
+          `;
+          break;
+        
+        case 'buscar':
+          response = 'Así puedes buscar profesionales en Chambitas SV:';
+          guideHTML = `
+            <div class="guide-container">
+              <div class="guide-step">
+                <h4>Paso 1: Ve a "Categorías"</h4>
+                <div class="guide-image">
+                  <i class="fas fa-th-large"></i>
+                </div>
+                <p class="guide-description">Selecciona la categoría del servicio que necesitas</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 2: Usa filtros</h4>
+                <div class="guide-image">
+                  <i class="fas fa-filter"></i>
+                </div>
+                <p class="guide-description">Filtra por ubicación, calificación o precio</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 3: Revisa perfiles</h4>
+                <div class="guide-image">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <p class="guide-description">Lee reseñas y ve el portafolio de cada profesional</p>
+              </div>
+            </div>
+          `;
+          break;
+        
+        case 'contratar':
+          response = 'Te explico cómo contratar un servicio:';
+          guideHTML = `
+            <div class="guide-container">
+              <div class="guide-step">
+                <h4>Paso 1: Selecciona al profesional</h4>
+                <div class="guide-image">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <p class="guide-description">Elige al profesional que mejor se adapte a tus necesidades</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 2: Envía solicitud</h4>
+                <div class="guide-image">
+                  <i class="fas fa-paper-plane"></i>
+                </div>
+                <p class="guide-description">Describe el trabajo y envía la solicitud</p>
+              </div>
+              <div class="guide-step">
+                <h4>Paso 3: Coordina detalles</h4>
+                <div class="guide-image">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <p class="guide-description">Chatea con el profesional para acordar precio y fecha</p>
+              </div>
+            </div>
+          `;
+          break;
+        
+        case 'pagos':
+          response = 'Métodos de pago disponibles:';
+          guideHTML = `
+            <div class="guide-container">
+              <div class="guide-step">
+                <h4>Tarjeta de Crédito/Débito</h4>
+                <div class="guide-image">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <p class="guide-description">Aceptamos todas las tarjetas principales</p>
+              </div>
+              <div class="guide-step">
+                <h4>Transferencia Bancaria</h4>
+                <div class="guide-image">
+                  <i class="fas fa-university"></i>
+                </div>
+                <p class="guide-description">Transferencia desde cualquier banco nacional</p>
+              </div>
+              <div class="guide-step">
+                <h4>Pago en Efectivo</h4>
+                <div class="guide-image">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <p class="guide-description">Paga directamente al profesional al finalizar el trabajo</p>
+              </div>
+            </div>
+          `;
+          break;
+      }
+
+      addMessage(response, 'bot');
+      
+      // Agregar la guía después de un pequeño delay
+      setTimeout(() => {
+        const guideMessage = document.createElement('div');
+        guideMessage.className = 'message bot-message';
+        guideMessage.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="message-content">
+            ${guideHTML}
+          </div>
+        `;
+        chatMessages.appendChild(guideMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 500);
+    }
+
+    // Cerrar chat al hacer clic fuera
+    document.addEventListener('click', function(event) {
+      if (!chambotContainer.contains(event.target) && chambotChat.classList.contains('active')) {
+        chambotChat.classList.remove('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
